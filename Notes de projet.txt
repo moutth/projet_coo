@@ -1,0 +1,13 @@
+NOTES :
+-noter au fur et à mesure les améliorations à apporter et les limites du cahier des charges
+
+UPDATES POUR LE USE CASE :
+-end chat session
+-separation change username / connexion
+-horodatage sur l'OS
+-ID gérés localement : broadcast de demande d'unicité du pseudo
+-Gestion des users actifs : broadcast pour connaître tous les users actifs
+
+
+AMELIORATIONS :
+-broadcast peu efficace face au facteur d'échelle (broadcast to 100 000 ???!!!)
