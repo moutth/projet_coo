@@ -1,8 +1,6 @@
 NOTES :
 -noter au fur et à mesure les améliorations à apporter et les limites du cahier des charges
 
-UPDATES POUR LE USE CASE :
-
 
 AMELIORATIONS :
 -broadcast peu efficace face au facteur d'échelle (broadcast to 100 000 ???!!!)
