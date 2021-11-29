@@ -1,6 +1,7 @@
 NOTES :
 -noter au fur et à mesure les améliorations à apporter et les limites du cahier des charges
 -penser à création de nouveau user/psswd OU connexion
+-penser à créer projet maven
 
 CLASS DIAGRAM :
 -ajouter "close_chat_session()"
