@@ -12,6 +12,7 @@ QUESTIONS :
 
 
 CODE CONVENTIONS :
+-min au début des var, maj au début des méthodes
 -pas d'underscore : nomDeMaVar, NomDeMaFonction, NomDeMaClasse
 -message sera toujours abrégé msg
--
+
