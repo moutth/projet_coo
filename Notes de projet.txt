@@ -5,7 +5,7 @@ NOTES :
 
 SPECIFICITES DE CONCEPTION :
 -BDD inclut table de correspondance ID/Username/psswd/currentPseudo
--
+-après l'authentification, on broadcast un msg demandant aux users connectés de nous communiquer leur ID et pseudo courant
 
 AMELIORATIONS :
 -broadcast peu efficace face au facteur d'échelle (broadcast to 100 000 ???!!!)
