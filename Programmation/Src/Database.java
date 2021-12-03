@@ -8,6 +8,7 @@ public class Database {
 
     
     public List<MsgUser> GetHistory(String pseudo) {
+    	return null;
     }
 
     

@@ -3,10 +3,6 @@
 
 public class GUIPrincipale {
     
-    public Model ;
-
-    
-    public Controller ;
 
     
     public Model model;
