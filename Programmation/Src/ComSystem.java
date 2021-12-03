@@ -1,9 +1,20 @@
-
+import java.util.ArrayList;
+import java.util.List;
+import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 
 public class ComSystem {
     
-    public Controller controller;
+    public Controller ;
+
+    
+    public ServSystem servSystem;
+
+    
+    public List<ServChat> servChat = new ArrayList<ServChat> ();
+
+    
+    public ServAccept servAccept;
 
     
     public void SendTCP(String port, MsgUser msg) {
