@@ -1,5 +1,14 @@
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import java.lang.Object;
 
-@objid ("d81d4c14-321a-4089-b45c-84ef5161e13b")
-public class ServSystem {
+public class ServSystem extends Thread {
+
+	ServSystem(String name){
+		super(name);
+		Start();	//runs the thread once instanciated
+	}
+
+	public void run(){
+		
+	}
+
 }

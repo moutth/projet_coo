@@ -1,5 +1,14 @@
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import java.lang.Object;
 
-@objid ("cc0d0e6e-74c8-4627-9bd3-be0ff996b4d7")
-public class ServChat {
+public class ServChat extends Thread {
+
+	ServChat(String name){
+		super(name);
+		Start();	//runs the thread once instanciated
+	}
+
+	public void run(){
+		
+	}
+
 }
