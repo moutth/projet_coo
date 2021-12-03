@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Database {
     
-    public Controller ;
+    public Controller controller;
 
     
     public List<MsgUser> GetHistory(String pseudo) {
@@ -16,6 +16,7 @@ public class Database {
 
     
     public boolean Login(String username, String password) {
+        return false;
     }
 
     
@@ -24,6 +25,7 @@ public class Database {
 
     
     public String GetLastPseudoUsed() {
+        return "";
     }
 
 }

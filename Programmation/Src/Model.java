@@ -22,6 +22,7 @@ public class Model {
     }
 
     public boolean IsAvailable(String pseudo) {
+        return false;
     }
 
 }

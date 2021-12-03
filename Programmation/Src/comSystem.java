@@ -3,7 +3,7 @@
 
 public class ComSystem {
     
-    public Controller ;
+    public Controller controller;
 
     
     public void SendTCP(String port, MsgUser msg) {
@@ -19,6 +19,7 @@ public class ComSystem {
 
     
     public int EstablishConnexion(String userID) {
+        return -1;
     }
 
     

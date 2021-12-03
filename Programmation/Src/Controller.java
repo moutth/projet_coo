@@ -3,12 +3,6 @@
 
 public class Controller {
     
-    public GUIPrincipale ;
-
-    
-    public Model ;
-
-    
     public Database database;
 
     

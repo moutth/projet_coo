@@ -8,7 +8,4 @@ public class User {
     
     public int userID;
 
-    
-    public Model ;
-
 }

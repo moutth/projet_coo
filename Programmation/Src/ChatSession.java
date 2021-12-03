@@ -9,6 +9,6 @@ public class ChatSession {
     public int distantUser;
 
     
-    public Model ;
+    public Model model;
 
 }
