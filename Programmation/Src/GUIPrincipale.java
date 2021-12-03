@@ -1,7 +1,7 @@
 
 
 
-public class GUI principale {
+public class GUIPrincipale {
     
     public Model ;
 
@@ -15,15 +15,15 @@ public class GUI principale {
     public Controller controller;
 
     
-    public void Open_chat_session() {
+    public void OpenChatSession() {
     }
 
     
-    public void print_userlist() {
+    public void PrintUserlist() {
     }
 
     
-    public void change_pseudo() {
+    public void ChangePseudo() {
     }
 
     
@@ -31,7 +31,7 @@ public class GUI principale {
     }
 
     
-    public void Send_msg() {
+    public void SendMsg() {
     }
 
 }

@@ -1,16 +1,16 @@
 
 
 
-public class comSystem {
+public class ComSystem {
     
     public Controller ;
 
     
-    public void sendTCP(String port, MsgUser msg) {
+    public void SendTCP(String port, MsgUser msg) {
     }
 
     
-    public void sendTCP(String port, MsgSystem msg) {
+    public void SendTCP(String port, MsgSystem msg) {
     }
 
     

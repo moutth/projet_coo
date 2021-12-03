@@ -11,7 +11,7 @@ public class Model {
 
     public List<Msg> msg = new ArrayList<Msg> ();
 
-    public List<Chat session> chat session = new ArrayList<Chat session> ();
+    public List<ChatSession> chatSession = new ArrayList<ChatSession> ();
 
     public List<User> user = new ArrayList<User> ();
 

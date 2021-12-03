@@ -3,7 +3,7 @@
 
 public class Controller {
     
-    public GUI principale ;
+    public GUIPrincipale ;
 
     
     public Model ;
@@ -12,19 +12,19 @@ public class Controller {
     public Database database;
 
     
-    public comSystem comSystem;
+    public ComSystem comSystem;
 
     
-    public GUI Connexion guiConnexion;
+    public GUIConnexion guiConnexion;
 
     
     public Model model;
 
     
-    public GUI principale guiPrincipale;
+    public GUIPrincipale guiPrincipale;
 
     
-    public void changePseudo(String pseudo) {
+    public void ChangePseudo(String pseudo) {
     }
 
 }

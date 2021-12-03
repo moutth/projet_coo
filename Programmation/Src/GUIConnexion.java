@@ -1,7 +1,7 @@
 
 
 
-public class GUI Connexion {
+public class GUIConnexion {
     
     public Controller controller;
 
@@ -9,7 +9,7 @@ public class GUI Connexion {
     public Model model;
 
     
-    public void Init_connexion() {
+    public void InitConnexion() {
     }
 
 }

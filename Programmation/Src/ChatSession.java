@@ -1,7 +1,7 @@
 
 
 
-public class Chat session {
+public class ChatSession {
     
     public MsgUser[] history;
 
