@@ -1,9 +1,9 @@
-NOTES :
+TODO :
 -noter au fur et à mesure les améliorations à apporter et les limites du cahier des charges
 -penser à création de nouveau user/psswd OU connexion
 -penser à créer projet maven
--réorga en package
 -integration continue Jenkins
+-demander à Slim pour la BDD
 
 SPECIFICITES DE CONCEPTION :
 -BDD inclut table de correspondance ID/Username/psswd/currentPseudo
