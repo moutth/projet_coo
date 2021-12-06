@@ -34,6 +34,7 @@ public class ServSystem extends Thread {
 		InetAddress clientAddress = inPacket.getAddress();
 		
 		String message = new String(inPacket.getData(), 0, inPacket.getLength());
+		System.out.println(message);
 		
 		switch (message) {
 			case "newConnexion":

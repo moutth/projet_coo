@@ -1,19 +1,17 @@
 import java.io.IOException;
-
-import Controller.ComSystem;
-import Controller.ServSystem;
+import controller.Controller;
+import model.*;
 
 public class main {
 
 	public static void main(String[] args) throws IOException {
 		
-		ServSystem serveur = new ServSystem("test");
-		ComSystem  communication = new ComSystem();
-		communication.SendUdp("255.255.255.255", ComSystem.SERVSYST, null); 
+		Model model = new Model();
+		Controller controller = new Controller(model);
 		
+		MsgSystem msg = new model.MsgSystem("newConnexion");
 		
-		
-		
+		controller.comSystem.SendUdp("127.0.0.255", 0, msg);
 
 	}
 

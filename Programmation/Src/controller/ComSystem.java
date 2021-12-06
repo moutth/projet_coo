@@ -58,14 +58,9 @@ public class ComSystem {
 		DatagramSocket ds = new DatagramSocket();
 
 		InetAddress ip = InetAddress.getByName(broadcast);
-		byte buf[] = null;
-		String inp = sc.nextLine();
-
-		// Convertir l'input en un tableau d'octets
-		buf = inp.getBytes();
-
+		
 		// Créer le Datagramme pour envoyer les donénes.
-		DatagramPacket DpSend = new DatagramPacket(buf, buf.length, ip, port);
+		DatagramPacket DpSend = new DatagramPacket(msg.msgType.getBytes(), msg.msgType.length(), ip, port);
 
 		// Invoquer le méthode send pour envoyer les données
 		ds.send(DpSend);

@@ -9,7 +9,7 @@ public class Controller {
     public Model model;
     public GUIPrincipale guiPrincipale;
     
-    Controller(Model inModel){
+    public Controller(Model inModel){
     	model = inModel;
     }
     
