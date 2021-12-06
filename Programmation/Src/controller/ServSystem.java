@@ -1,9 +1,6 @@
 package controller;
 import java.io.IOException;
-import java.lang.Object;
 import java.net.*;
-
-import model.User;
 
 public class ServSystem extends Thread {
 
@@ -11,7 +8,7 @@ public class ServSystem extends Thread {
 	
 	private ComSystem comSystem;
 	
-	private ServSystem(ComSystem in){
+	ServSystem(ComSystem in){
 		comSystem = in;
 		start();	//runs the thread once instanciated
 	}
@@ -40,8 +37,15 @@ public class ServSystem extends Thread {
 		
 		switch (message) {
 			case "newConnexion":
-				String response = new String();
-				DatagramPacket outPacket = new DatagramPacket(response.getBytes(), response.length(), clientAddress, clientPort);
+				String response = Integer.toString(comSystem.controller.model.currentUser.userID) + comSystem.controller.model.currentUser.pseudo;
+				DatagramPacket outPacket = new DatagramPacket(response.getBytes(), response.length(), clientAddress, ComSystem.SERVSYST);
+				try {
+					socket.send(outPacket);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			
+				
 		}
 
 	}

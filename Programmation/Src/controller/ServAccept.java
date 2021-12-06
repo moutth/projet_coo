@@ -1,5 +1,4 @@
 package controller;
-import java.lang.Object;
 
 public class ServAccept extends Thread {
 

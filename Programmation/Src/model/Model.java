@@ -8,7 +8,7 @@ public class Model {
 
     public User[] connectedUserList;
 
-    public User currentUser;
+    public User currentUser = new User(12564, "moutthias", "127.0.0.1");
 
     public List<Msg> msg = new ArrayList<Msg> ();
 

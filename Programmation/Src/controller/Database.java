@@ -8,7 +8,10 @@ import model.MsgUser;
 public class Database {
     
     public Controller controller;
-
+    
+    Database(Controller incontroller){
+    	controller = incontroller;
+    }
     
     public List<MsgUser> GetHistory(String pseudo) {
     	return null;
