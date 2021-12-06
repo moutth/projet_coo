@@ -1,5 +1,7 @@
-
-
+package Controller;
+import GUI.GUIConnexion;
+import GUI.GUIPrincipale;
+import Model.Model;
 
 public class Controller {
     

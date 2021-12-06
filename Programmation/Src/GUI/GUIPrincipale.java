@@ -1,12 +1,13 @@
-
-
+package GUI;
+import Controller.Controller;
+import Model.Model;
 
 public class GUIPrincipale {
     
-    public Model ;
+    //public Model ;
 
     
-    public Controller ;
+    //public Controller ;
 
     
     public Model model;

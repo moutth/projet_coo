@@ -1,6 +1,4 @@
-
-
-
+package Model;
 public class ChatSession {
     
     public MsgUser[] history;

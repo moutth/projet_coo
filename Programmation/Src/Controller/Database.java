@@ -1,4 +1,7 @@
+package Controller;
 import java.util.List;
+
+import Model.MsgUser;
 
 
 
@@ -8,6 +11,7 @@ public class Database {
 
     
     public List<MsgUser> GetHistory(String pseudo) {
+    	return null;
     }
 
     
