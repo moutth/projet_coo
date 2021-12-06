@@ -11,7 +11,7 @@ public class main {
 		
 		MsgSystem msg = new model.MsgSystem("newConnexion");
 		
-		controller.comSystem.SendUdp("127.0.0.255", 0, msg);
+		controller.comSystem.SendUdp("127.0.0.255", controller.comSystem.SERVSYST, msg);
 
 	}
 
