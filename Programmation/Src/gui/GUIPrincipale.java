@@ -1,6 +1,6 @@
-package GUI;
-import Controller.Controller;
-import Model.Model;
+package gui;
+import controller.Controller;
+import model.Model;
 
 public class GUIPrincipale {
     

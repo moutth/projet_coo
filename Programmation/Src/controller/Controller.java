@@ -1,7 +1,7 @@
-package Controller;
-import GUI.GUIConnexion;
-import GUI.GUIPrincipale;
-import Model.Model;
+package controller;
+import gui.GUIConnexion;
+import gui.GUIPrincipale;
+import model.Model;
 
 public class Controller {
     

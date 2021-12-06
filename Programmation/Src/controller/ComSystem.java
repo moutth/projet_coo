@@ -1,9 +1,9 @@
-package Controller;
+package controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.MsgSystem;
-import Model.MsgUser;
+import model.MsgSystem;
+import model.MsgUser;
 
 public class ComSystem {
     
@@ -11,8 +11,13 @@ public class ComSystem {
     public final static int SERVACCEPT = 1201;
     public final static int UDPMAXSIZE = 256;
 
-    //public Controller ;
-
+    public Controller controller;
+    
+    ComSystem(Controller in)
+    {
+    	controller = in;
+    }
+    
     
     public ServSystem servSystem;
 

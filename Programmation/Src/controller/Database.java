@@ -1,7 +1,7 @@
-package Controller;
+package controller;
 import java.util.List;
 
-import Model.MsgUser;
+import model.MsgUser;
 
 
 
