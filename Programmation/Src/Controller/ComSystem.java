@@ -23,12 +23,35 @@ public class ComSystem {
     //public ServAccept servAccept;
 
     
+    
     public void SendTCP(String port, MsgUser msg) {
     }
 
     
-    public void SendTCP(String port, MsgSystem msg) {
-    }
+    	public void SendUdp(String broadcast, int port, MsgSystem msg) throws IOException {
+		Scanner sc = new Scanner(System.in);
+
+		// Création de la socket avec un numéro de port aléatoire
+		DatagramSocket ds = new DatagramSocket();
+
+		InetAddress ip = InetAddress.getByName(broadcast);
+		byte buf[] = null;
+		String inp = sc.nextLine();
+
+		// Convertir l'input en un tableau d'octets
+		buf = inp.getBytes();
+
+		// Créer le Datagramme pour envoyer les donénes.
+		DatagramPacket DpSend = new DatagramPacket(buf, buf.length, ip, port);
+
+		// Invoquer le méthode send pour envoyer les données
+		ds.send(DpSend);
+
+		// Fermeture des socket
+		sc.close();
+		ds.close();
+
+	}
 
     
     public void InitSystemServ() {
