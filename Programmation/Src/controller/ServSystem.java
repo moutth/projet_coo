@@ -46,7 +46,7 @@ public class ServSystem extends Thread {
 					e.printStackTrace();
 				}
 			
-				
+			default : System.out.println(message);
 		}
 
 	}

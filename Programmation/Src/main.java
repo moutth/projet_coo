@@ -16,7 +16,7 @@ public class main {
 		controller.comSystem.SendUdp("255.255.255.255", ComSystem.SERVSYST, msg);
 		
 		
-		while(true);
+
 
 	}
 
