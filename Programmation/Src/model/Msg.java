@@ -17,6 +17,4 @@ public class Msg {
     public int receiverID;
 
     
-    public Model model;
-
 }

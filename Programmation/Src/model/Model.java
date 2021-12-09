@@ -8,13 +8,21 @@ public class Model {
 
     public User[] connectedUserList;
 
-    public User currentUser = new User(12564, "moutthias", "127.0.0.1");
+    public User currentUser ;
 
-    public List<Msg> msg = new ArrayList<Msg> ();
+    public List<Msg> msg ;
 
-    public List<ChatSession> chatSession = new ArrayList<ChatSession> ();
+    public List<ChatSession> chatSession ;
 
-    public List<User> user = new ArrayList<User> ();
+    public List<User> user;
+    
+    public Model()
+    {
+    	this.currentUser = new User(12564, "moutthias", "127.0.0.1");
+    	this.msg = new ArrayList<Msg> ();
+    	this.chatSession = new ArrayList<ChatSession> ();
+    	user = new ArrayList<User> ();
+    }
 
     public void AddUser(User userToAdd) {
     }
