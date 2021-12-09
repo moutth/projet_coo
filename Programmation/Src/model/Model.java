@@ -18,7 +18,7 @@ public class Model {
     
     public Model()
     {
-    	this.currentUser = new User(12564, "moutthias", "127.0.0.1");
+    	this.currentUser = new User(12564, "moutthias", "10.1.5.74");
     	this.msg = new ArrayList<Msg> ();
     	this.chatSession = new ArrayList<ChatSession> ();
     	user = new ArrayList<User> ();

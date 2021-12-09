@@ -14,6 +14,8 @@ public class main {
 		Controller controller = new Controller(model);
 		MsgSystem msg = new MsgSystem("newConnexion");
 		controller.comSystem.SendUdp("255.255.255.255", ComSystem.SERVSYST, msg);
+		
+		
 		while(true);
 
 	}
