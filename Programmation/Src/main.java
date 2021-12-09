@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.net.InetAddress;
+
 import controller.Controller;
 import model.*;
 
@@ -10,8 +12,8 @@ public class main {
 		Controller controller = new Controller(model);
 		
 		MsgSystem msg = new model.MsgSystem("newConnexion");
-		
-		//controller.comSystem.SendUdp("127.0.0.255", controller.comSystem.SERVSYST, msg);
+		InetAddress ip = InetAddress.getByName("10.1.5.74");
+		controller.comSystem.SendUdp(ip, controller.comSystem.SERVSYST, msg);
 		while(true);
 	}
 

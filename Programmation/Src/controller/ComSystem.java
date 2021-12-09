@@ -51,13 +51,11 @@ public class ComSystem {
     }
 
     
-    public void SendUdp(String broadcast, int port, MsgSystem msg) throws IOException {
+    public void SendUdp(InetAddress ip, int port, MsgSystem msg) throws IOException {
 		Scanner sc = new Scanner(System.in);
 
 		// Création de la socket avec un numéro de port aléatoire
 		DatagramSocket ds = new DatagramSocket();
-
-		InetAddress ip = InetAddress.getByName(broadcast);
 		
 		// Créer le Datagramme pour envoyer les donénes.
 		DatagramPacket DpSend = new DatagramPacket(msg.msgType.getBytes(), msg.msgType.length(), ip, port);
