@@ -14,7 +14,7 @@ public class Controller {
 
 	public Controller(Model inModel) {
 		model = inModel;
-		this.database = new Database(this);;
+		database = new Database(this);
 		comSystem = new ComSystem(this);
 	}
 

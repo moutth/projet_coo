@@ -10,9 +10,12 @@ public class User {
     
     public int userID;
     
-    User(int userIDin, String pseudoin, String ipin){
+    public User(int userIDin, String pseudoin, String ipin){
     	pseudo = pseudoin;
     	ip = ipin;
+    	if (ip.startsWith("/")) {
+    		ip = ip.substring(1);
+    	}
     	userID = userIDin;
     }
 

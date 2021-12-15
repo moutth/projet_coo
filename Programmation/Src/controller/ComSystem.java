@@ -17,15 +17,17 @@ public class ComSystem {
     public final static int UDPMAXSIZE = 256;
 
     public Controller controller;
+
+    public ServSystem servSystem;
+    public List<ServChat> servChat;
     
     ComSystem(Controller in)
     {
     	controller = in;
+    	servSystem = new ServSystem(this);
+    	servChat = new ArrayList<ServChat>();
     }
     
-    public ServSystem servSystem = new ServSystem(this);
-    
-    public List<ServChat> servChat = new ArrayList<ServChat> ();
     
     //public ServAccept servAccept;
     
@@ -58,7 +60,7 @@ public class ComSystem {
 		DatagramSocket ds = new DatagramSocket();
 		
 		// Créer le Datagramme pour envoyer les donénes.
-		DatagramPacket DpSend = new DatagramPacket(msg.msgType.getBytes(), msg.msgType.length(), ip, port);
+		DatagramPacket DpSend = new DatagramPacket(msg.toString().getBytes(), msg.toString().length(), ip, port);
 
 		// Invoquer le méthode send pour envoyer les données
 		ds.send(DpSend);

@@ -11,9 +11,10 @@ public class main {
 		Model model = new Model();
 		Controller controller = new Controller(model);
 		
-		MsgSystem msg = new model.MsgSystem("newConnexion");
-		InetAddress ip = InetAddress.getByName("10.1.5.74");
+		MsgSystem msg = new MsgSystem(model, "newConnexion");
+		InetAddress ip = InetAddress.getByName("127.0.0.255");
 		controller.comSystem.SendUdp(ip, controller.comSystem.SERVSYST, msg);
+		System.out.println("sent : " + msg);
 		while(true);
 	}
 
