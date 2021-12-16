@@ -14,22 +14,26 @@ public class Model {
 
     public List<ChatSession> chatSession ;
     
-    public Model()
+    public Model(User currentUserIn)
     {
-    	this.currentUser = new User(12564, "moutthias", "127.0.0.1");
-    	this.msg = new ArrayList<Msg> ();
-    	this.chatSession = new ArrayList<ChatSession> ();
+    	currentUser = currentUserIn;
+    	msg = new ArrayList<Msg> ();
+    	chatSession = new ArrayList<ChatSession> ();
     	connectedUserList = new ArrayList<User> ();
     }
 
+    public void SetCurrentUser(User current) {
+    	currentUser = current;
+    }
+    
     public void AddUser(User userToAdd) {
     	connectedUserList.add(userToAdd);
     }
 
-    public void RemoveUser(String userToRemove) {
+    public void RemoveUser(int userID) {
 		int index = -1;
     	for (int i = 0; i < connectedUserList.size(); i++) {
-			if (connectedUserList.get(i).pseudo == userToRemove) {
+			if (connectedUserList.get(i).userID == userID) {
 				index = i;
 			}
     	}
@@ -37,11 +41,20 @@ public class Model {
     		connectedUserList.remove(index);
     	}
     }
+    
+    public void ChangePseudo(int userID, String newPseudo) {
+    	for (int i = 0; i < connectedUserList.size(); i++) {
+			if (connectedUserList.get(i).userID == userID) {
+				connectedUserList.get(i).pseudo = newPseudo;
+				break;
+			}
+    	}
+    }
 
     public boolean IsAvailable(String pseudo) {
     	boolean available = true;
     	for (int i = 0; i < connectedUserList.size(); i++) {
-			if (connectedUserList.get(i).pseudo == pseudo) {
+			if (connectedUserList.get(i).pseudo.equalsIgnoreCase(pseudo)) {
 				available = false;
 				break;
 			}

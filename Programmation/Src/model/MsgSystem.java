@@ -14,15 +14,22 @@ public class MsgSystem extends Msg {
 		arg = new ArrayList<String>();
 		arg.add(msgType);
 		switch (arg.get(0)) {
-		case "NewConnexion" :
+		case "Init" :
 			break;
-		case "ConnexionAnswer" :
+		case "InitAnswer" :
+			arg.add(Integer.toString(model.currentUser.userID)); 	// 1 is the ID of the user
+			arg.add(model.currentUser.pseudo);						// 2 is the pseudo of the user
+			break;
+		case "Connexion" :
 			arg.add(Integer.toString(model.currentUser.userID)); 	// 1 is the ID of the user
 			arg.add(model.currentUser.pseudo);						// 2 is the pseudo of the user
 			break;
 		case "ChangePseudo" :
+			arg.add(Integer.toString(model.currentUser.userID)); 	// 1 is the ID of the user
+			arg.add(model.currentUser.pseudo);						// 2 is the pseudo of the user
 			break;
 		case "Deconnexion" :
+			arg.add(Integer.toString(model.currentUser.userID)); 	// 1 is the ID of the user
 			break;
 		}
 	}

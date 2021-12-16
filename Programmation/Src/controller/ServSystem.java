@@ -16,7 +16,7 @@ public class ServSystem extends Thread {
 		comSystem = in;
 		model = comSystem.controller.model;
 		currentUser = comSystem.controller.model.currentUser;
-		start(); // runs the thread once instanciated
+		start(); // runs the thread once instantiated
 	}
 
 	public void run() {
@@ -39,23 +39,38 @@ public class ServSystem extends Thread {
 			}
 
 			InetAddress clientAddress = inPacket.getAddress();
-			if (clientAddress.toString().equals("/" + currentUser.ip)) {
+			if (!clientAddress.toString().equals("/" + currentUser.ip)) {
 				
 				MsgSystem msg = new MsgSystem(model, new String(inPacket.getData(), 0, inPacket.getLength()));
 				System.out.println("received : " + msg);
 
 				switch (msg.getType()) {
 
-				case "newConnexion":
+				case "Init":
 					try {
-						comSystem.SendUdp(clientAddress, ComSystem.SERVSYST, new MsgSystem(model, "ConnexionAnswer", ""));
-						System.out.println("sent : " + new MsgSystem(model, "ConnexionAnswer"));
+						comSystem.SendUdp(clientAddress, ComSystem.SERVSYST, new MsgSystem(model, "InitAnswer", ""));
+						System.out.println("sent : " + new MsgSystem(model, "InitAnswer"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 					break;
-				case "ConnexionAnswer":
+					
+				case "InitAnswer":
 					comSystem.controller.model.AddUser(new User(Integer.valueOf(msg.getArg(1)), msg.getArg(2), clientAddress.toString()));
+					break;
+					
+				case "Connexion" :
+					comSystem.controller.model.AddUser(new User(Integer.valueOf(msg.getArg(1)), msg.getArg(2), clientAddress.toString()));
+					break;
+					
+				case "ChangePseudo" :
+					comSystem.controller.model.ChangePseudo(Integer.valueOf(msg.getArg(1)), msg.getArg(2));
+					break;
+					
+				case "Deconnexion" :
+					comSystem.controller.model.RemoveUser(Integer.valueOf(msg.getArg(1)));
+					break;
+					
 				default:
 					System.out.println("default");
 				}

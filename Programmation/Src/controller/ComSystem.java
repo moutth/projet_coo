@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import model.MsgSystem;
 import model.MsgUser;
+import model.User;
 
 public class ComSystem {
     
@@ -19,36 +20,36 @@ public class ComSystem {
     public Controller controller;
 
     public ServSystem servSystem;
+    public ServAccept servAccept;
     public List<ServChat> servChat;
     
     ComSystem(Controller in)
     {
     	controller = in;
     	servSystem = new ServSystem(this);
+    	servAccept = new ServAccept(this);
     	servChat = new ArrayList<ServChat>();
     }
-    
-    
-    //public ServAccept servAccept;
     
     public void SendTCP(String ip, int port, MsgUser msg) throws UnknownHostException, IOException {
     	OutputStream outputStream;
     	OutputStreamWriter outputStreamWriter;
     	
     	// etablissemnt de la connexion 
-    	Socket socket=new Socket(ip , port);    
+    	Socket sendSocket = new Socket(ip, port);    
     	
-    	// Instantiation pour  écrire des données 
-    	outputStream=socket.getOutputStream();
-    	outputStreamWriter=new OutputStreamWriter(outputStream);
+    	// Instantiation pour écrire des données 
+    	outputStream = sendSocket.getOutputStream();
+    	outputStreamWriter = new OutputStreamWriter(outputStream);
     	
-    	// Envoie de la donnée 
+    	// Envoi de la donnée 
     	outputStreamWriter.write(msg.toString()); // à modifer plus tard
     	outputStreamWriter.flush();
+    	
+    	sendSocket.close();
+    }
     
-    	
-    	
-    	socket.close();
+    public void SendMsg(User dest, MsgUser msg) {
     	
     }
 
@@ -71,17 +72,8 @@ public class ComSystem {
 
 	}
 
-    
-    public void InitSystemServ() {
-    }
-
-    
     public int EstablishConnexion(String userID) {
         return -1;
-    }
-
-    
-    public void InitAcceptServ() {
     }
 
 }
