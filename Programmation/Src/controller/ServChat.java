@@ -6,42 +6,87 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import model.Model;
-import model.User;
+import model.*;
 
 public class ServChat extends Thread {
-
+	
 	private ComSystem comSystem;
 	private User currentUser;
 	public User distantUser;
 	private Model model;
 	
 	private Socket receiveSocket;
-	private BufferedReader buffIn;
-	private PrintWriter writerOut;
-
+	private BufferedReader reader;
+	private PrintWriter writer;
+	
+	private String toSend;
+	public boolean running = true;
+	
 	ServChat(ComSystem comSystem, Socket receiveSocket){
 		this.comSystem = comSystem;
 		this.model = comSystem.controller.model;
 		this.currentUser = comSystem.controller.model.currentUser;
 		
 		this.receiveSocket = receiveSocket;
-		try {
-			buffIn = new BufferedReader(new InputStreamReader(receiveSocket.getInputStream()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			writerOut = new PrintWriter(receiveSocket.getOutputStream(), true);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		start();	//runs the thread once instantiated
-	}
-
-	public void run(){
 		
+		try {
+			reader = new BufferedReader(new InputStreamReader(receiveSocket.getInputStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			writer = new PrintWriter(receiveSocket.getOutputStream(), true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		while(running) {
+			try {
+				System.out.println(reader.readLine());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
-
+	
+	ServChat(ComSystem comSystem, User distant, Socket receiveSocket){
+		this.comSystem = comSystem;
+		this.model = comSystem.controller.model;
+		this.currentUser = comSystem.controller.model.currentUser;
+		this.distantUser = distant;
+		
+		this.receiveSocket = receiveSocket;
+		
+		try {
+			reader = new BufferedReader(new InputStreamReader(receiveSocket.getInputStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			writer = new PrintWriter(receiveSocket.getOutputStream(), true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		while(running) {
+			try {
+				System.out.println(reader.readLine());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void run() {
+		writer.print(toSend);
+	}
+	
+	public void send(String toSend) {
+		start();
+	}
+	
 }

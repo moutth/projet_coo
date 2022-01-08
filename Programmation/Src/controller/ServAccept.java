@@ -11,6 +11,7 @@ public class ServAccept extends Thread {
 	private ComSystem comSystem;
 	private User currentUser;
 	private Model model;
+	public boolean running = true;
 
 	ServAccept(ComSystem in) {
 		comSystem = in;
@@ -27,7 +28,7 @@ public class ServAccept extends Thread {
 			e.printStackTrace();
 		}
 		
-		while(true) {
+		while(running) {
 			try {
 				comSystem.servChat.add(new ServChat(comSystem, acceptSocket.accept()));
 			} catch (IOException e) {

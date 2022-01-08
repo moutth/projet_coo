@@ -35,7 +35,7 @@ public class ComSystem {
     	OutputStream outputStream;
     	OutputStreamWriter outputStreamWriter;
     	
-    	// etablissemnt de la connexion 
+    	// etablissement de la connexion 
     	Socket sendSocket = new Socket(ip, port);    
     	
     	// Instantiation pour écrire des données 
@@ -43,16 +43,11 @@ public class ComSystem {
     	outputStreamWriter = new OutputStreamWriter(outputStream);
     	
     	// Envoi de la donnée 
-    	outputStreamWriter.write(msg.toString()); // à modifer plus tard
+    	outputStreamWriter.write(msg.toString()); // à modifier plus tard
     	outputStreamWriter.flush();
     	
     	sendSocket.close();
     }
-    
-    public void SendMsg(User dest, MsgUser msg) {
-    	
-    }
-
     
     public void SendUdp(InetAddress ip, int port, MsgSystem msg) throws IOException {
 		Scanner sc = new Scanner(System.in);
@@ -60,20 +55,24 @@ public class ComSystem {
 		// Création de la socket avec un numéro de port aléatoire
 		DatagramSocket ds = new DatagramSocket();
 		
-		// Créer le Datagramme pour envoyer les donénes.
+		// Créer le Datagramme pour envoyer les données
 		DatagramPacket DpSend = new DatagramPacket(msg.toString().getBytes(), msg.toString().length(), ip, port);
 
-		// Invoquer le méthode send pour envoyer les données
+		// Invoquer la méthode send pour envoyer les données
 		ds.send(DpSend);
 
-		// Fermeture des socket
+		// Fermeture des sockets
 		sc.close();
 		ds.close();
 
 	}
 
-    public int EstablishConnexion(String userID) {
-        return -1;
+    public void EstablishConnexion(User dest) {
+    	try {
+			servChat.add(new ServChat(this, dest, new Socket(dest.ip, SERVACCEPT)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
 }

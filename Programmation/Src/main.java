@@ -9,7 +9,7 @@ public class main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
-		Model model = new Model(new User(1234, "moutthias", "127.0.0.1"));
+		Model model = new Model(new User(1234, "matth", "127.0.0.1"));
 		Controller controller = new Controller(model);
 		
 		/* Tests relatifs à la UserList
@@ -39,6 +39,9 @@ public class main {
 		System.out.println("IsAvailable(potatoe) : " + model.IsAvailable("potatoe"));
 		Thread.sleep(1000);
 		*/
+		
+		/* test TCP */
+		
 		
 		while(true);
 	}
