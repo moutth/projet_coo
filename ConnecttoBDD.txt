@@ -1,0 +1,1 @@
+mysql -h srv-bdens.insa-toulouse.fr -P 3306 -u tp_servlet_010 -p
