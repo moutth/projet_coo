@@ -52,11 +52,18 @@ public class Choosepseudo extends JFrame {
 		JButton btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//vérifcation grace à l'UDP
-				principal = new Principal (controller, model,getConnexion());
-				principal.setVisible(true);                                                            
-				FermerFenetre();
-				
+				String pseudo = textField.getText();
+				if (model.IsAvailable(pseudo)) {
+					principal = new Principal (controller, model,getConnexion());
+					principal.setVisible(true);                                                            
+					FermerFenetre();
+					
+					model.getCurrentUser().setPseudo(pseudo);
+					controller.comSystem.SendSystemConnexion();
+				}
+				else {
+					// print msg err					
+				}
 			}
 		});
 		btnConfirm.setBounds(41, 63, 117, 25);

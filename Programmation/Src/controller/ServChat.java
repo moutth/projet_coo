@@ -25,7 +25,7 @@ public class ServChat extends Thread {
 	ServChat(ComSystem comSystem, Socket receiveSocket){
 		this.comSystem = comSystem;
 		this.model = comSystem.controller.model;
-		this.currentUser = comSystem.controller.model.currentUser;
+		this.currentUser = comSystem.controller.model.getCurrentUser();
 		
 		this.receiveSocket = receiveSocket;
 		
@@ -54,7 +54,7 @@ public class ServChat extends Thread {
 	ServChat(ComSystem comSystem, User distant, Socket receiveSocket){
 		this.comSystem = comSystem;
 		this.model = comSystem.controller.model;
-		this.currentUser = comSystem.controller.model.currentUser;
+		this.currentUser = comSystem.controller.model.getCurrentUser();
 		this.distantUser = distant;
 		
 		this.receiveSocket = receiveSocket;

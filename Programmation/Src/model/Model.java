@@ -8,7 +8,7 @@ public class Model {
 
     public ArrayList<User> connectedUserList;
 
-    public User currentUser ;
+    private User currentUser ;
 
     public List<Msg> msg ;
 
@@ -21,10 +21,7 @@ public class Model {
     	msg = new ArrayList<Msg> ();
     	chatSession = new ArrayList<ChatSession> ();
     	connectedUserList = new ArrayList<User> ();
-    }
-
-    public void SetCurrentUser(User current) {
-    	currentUser = current;
+    	currentUser = new User();
     }
     
     public void AddUser(User userToAdd) {
@@ -34,7 +31,7 @@ public class Model {
     public void RemoveUser(int userID) {
 		int index = -1;
     	for (int i = 0; i < connectedUserList.size(); i++) {
-			if (connectedUserList.get(i).userID == userID) {
+			if (connectedUserList.get(i).getUserID() == userID) {
 				index = i;
 			}
     	}
@@ -45,8 +42,8 @@ public class Model {
     
     public void ChangePseudo(int userID, String newPseudo) {
     	for (int i = 0; i < connectedUserList.size(); i++) {
-			if (connectedUserList.get(i).userID == userID) {
-				connectedUserList.get(i).pseudo = newPseudo;
+			if (connectedUserList.get(i).getUserID() == userID) {
+				connectedUserList.get(i).setPseudo(newPseudo);
 				break;
 			}
     	}
@@ -55,12 +52,23 @@ public class Model {
     public boolean IsAvailable(String pseudo) {
     	boolean available = true;
     	for (int i = 0; i < connectedUserList.size(); i++) {
-			if (connectedUserList.get(i).pseudo.equalsIgnoreCase(pseudo)) {
+			if (connectedUserList.get(i).getPseudo().equalsIgnoreCase(pseudo)) {
 				available = false;
 				break;
 			}
     	}
         return available;
     }
+
+    
+    // Getters & Setters
+    
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
+	}
 
 }

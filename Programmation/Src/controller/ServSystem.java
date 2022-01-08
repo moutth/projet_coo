@@ -15,7 +15,7 @@ public class ServSystem extends Thread {
 	ServSystem(ComSystem in) {
 		comSystem = in;
 		model = comSystem.controller.model;
-		currentUser = comSystem.controller.model.currentUser;
+		currentUser = comSystem.controller.model.getCurrentUser();
 		start(); // runs the thread once instantiated
 	}
 
@@ -39,7 +39,7 @@ public class ServSystem extends Thread {
 			}
 
 			InetAddress clientAddress = inPacket.getAddress();
-			if (!clientAddress.toString().equals("/" + currentUser.ip)) {
+			if (!clientAddress.toString().equals("/" + currentUser.getIp())) {
 				
 				MsgSystem msg = new MsgSystem(model, new String(inPacket.getData(), 0, inPacket.getLength()));
 				System.out.println("received : " + msg);
@@ -76,7 +76,6 @@ public class ServSystem extends Thread {
 				}
 			}
 		}
-
 	}
 
 }

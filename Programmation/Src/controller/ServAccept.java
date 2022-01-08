@@ -16,7 +16,7 @@ public class ServAccept extends Thread {
 	ServAccept(ComSystem in) {
 		comSystem = in;
 		model = comSystem.controller.model;
-		currentUser = comSystem.controller.model.currentUser;
+		currentUser = comSystem.controller.model.getCurrentUser();
 		start(); // runs the thread once instantiated
 	}
 

@@ -85,6 +85,8 @@ public class Database {
 				String username_password = result_select.getString(3);
 				if (username_inscris.equals(username) && username_password.equals(password)) {
 					connected = true;
+					int username_ID = result_select.getInt(1);
+					controller.model.getCurrentUser().setUserID(username_ID);
 				}
 			}
 

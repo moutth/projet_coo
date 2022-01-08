@@ -7,13 +7,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.ComSystem;
 import controller.Controller;
 import model.Model;
+import model.MsgSystem;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
@@ -72,6 +75,9 @@ public class Connexion extends JFrame {
 				boolean login = controller.database.Login(username, password);
 				if (login)
 				{
+					// Demande d'envoi des pseudos à toutes les instances connectées
+					controller.comSystem.SendSystemInit();
+					// Instanciation de la prochaine fenêtre d'interface graphique
 					choosepseudo = new Choosepseudo(controller, model,getConnexion());
 					choosepseudo.setVisible(true);
 					FermerFenetre();

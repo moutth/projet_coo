@@ -17,19 +17,19 @@ public class MsgSystem extends Msg {
 		case "Init" :
 			break;
 		case "InitAnswer" :
-			arg.add(Integer.toString(model.currentUser.userID)); 	// 1 is the ID of the user
-			arg.add(model.currentUser.pseudo);						// 2 is the pseudo of the user
+			arg.add(Integer.toString(model.getCurrentUser().getUserID())); 	// 1 is the ID of the user
+			arg.add(model.getCurrentUser().getPseudo());						// 2 is the pseudo of the user
 			break;
 		case "Connexion" :
-			arg.add(Integer.toString(model.currentUser.userID)); 	// 1 is the ID of the user
-			arg.add(model.currentUser.pseudo);						// 2 is the pseudo of the user
+			arg.add(Integer.toString(model.getCurrentUser().getUserID())); 	// 1 is the ID of the user
+			arg.add(model.getCurrentUser().getPseudo());						// 2 is the pseudo of the user
 			break;
 		case "ChangePseudo" :
-			arg.add(Integer.toString(model.currentUser.userID)); 	// 1 is the ID of the user
-			arg.add(model.currentUser.pseudo);						// 2 is the pseudo of the user
+			arg.add(Integer.toString(model.getCurrentUser().getUserID())); 	// 1 is the ID of the user
+			arg.add(model.getCurrentUser().getPseudo());						// 2 is the pseudo of the user
 			break;
 		case "Deconnexion" :
-			arg.add(Integer.toString(model.currentUser.userID)); 	// 1 is the ID of the user
+			arg.add(Integer.toString(model.getCurrentUser().getUserID())); 	// 1 is the ID of the user
 			break;
 		}
 	}

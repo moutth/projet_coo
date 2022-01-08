@@ -16,6 +16,8 @@ public class ComSystem {
     public final static int SERVSYST = 1200;
     public final static int SERVACCEPT = 1201;
     public final static int UDPMAXSIZE = 256;
+    
+    public InetAddress BROADCAST;
 
     public Controller controller;
 
@@ -23,12 +25,23 @@ public class ComSystem {
     public ServAccept servAccept;
     public List<ServChat> servChat;
     
+    public InetAddress localIP;
+    
     ComSystem(Controller in)
     {
     	controller = in;
     	servSystem = new ServSystem(this);
     	servAccept = new ServAccept(this);
     	servChat = new ArrayList<ServChat>();
+    	
+    	try {
+			localIP = InetAddress.getLocalHost();
+			controller.model.getCurrentUser().setIp(localIP.toString());
+			
+			BROADCAST = InetAddress.getByName("255.255.255.255");
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
     }
     
     public void SendTCP(String ip, int port, MsgUser msg) throws UnknownHostException, IOException {
@@ -66,10 +79,28 @@ public class ComSystem {
 		ds.close();
 
 	}
+    
+    public void SendSystemInit() {
+    	MsgSystem msg = new MsgSystem(controller.model, "Init");
+		try {
+			controller.comSystem.SendUdp(BROADCAST, ComSystem.SERVSYST, msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void SendSystemConnexion() {
+    	MsgSystem msg = new MsgSystem(controller.model, "Connexion", "");
+		try {
+			controller.comSystem.SendUdp(BROADCAST, ComSystem.SERVSYST, msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 
     public void EstablishConnexion(User dest) {
     	try {
-			servChat.add(new ServChat(this, dest, new Socket(dest.ip, SERVACCEPT)));
+			servChat.add(new ServChat(this, dest, new Socket(dest.getIp(), SERVACCEPT)));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
