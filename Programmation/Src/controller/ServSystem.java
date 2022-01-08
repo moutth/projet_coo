@@ -42,17 +42,15 @@ public class ServSystem extends Thread {
 			if (!clientAddress.toString().equals("/" + currentUser.getIp())) {
 				
 				MsgSystem msg = new MsgSystem(model, new String(inPacket.getData(), 0, inPacket.getLength()));
+				// Debug print
 				System.out.println("received : " + msg);
 
 				switch (msg.getType()) {
 
 				case "Init":
-					try {
-						comSystem.SendUdp(clientAddress, ComSystem.SERVSYST, new MsgSystem(model, "InitAnswer", ""));
-						System.out.println("sent : " + new MsgSystem(model, "InitAnswer"));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					comSystem.SendSystemInitAnswer();
+					// Debug print
+					System.out.println("sent : " + new MsgSystem(model, "InitAnswer"));
 					break;
 					
 				case "InitAnswer":

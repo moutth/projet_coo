@@ -4,6 +4,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,7 +27,7 @@ public class ComSystem {
     public ServAccept servAccept;
     public List<ServChat> servChat;
     
-    public InetAddress localIP;
+    public String localIP;
     
     ComSystem(Controller in)
     {
@@ -35,7 +37,17 @@ public class ComSystem {
     	servChat = new ArrayList<ServChat>();
     	
     	try {
-			localIP = InetAddress.getLocalHost();
+    		Enumeration e = null;
+			try {
+				e = NetworkInterface.getNetworkInterfaces();
+			} catch (SocketException e1) {
+				e1.printStackTrace();
+			}
+    		Enumeration ee = ((NetworkInterface) e.nextElement()).getInetAddresses();
+    		ee.nextElement();
+    		InetAddress i = (InetAddress) ee.nextElement();
+    		localIP = i.getHostAddress();
+			System.out.println(localIP);
 			controller.model.getCurrentUser().setIp(localIP.toString());
 			
 			BROADCAST = InetAddress.getByName("255.255.255.255");
@@ -81,7 +93,16 @@ public class ComSystem {
 	}
     
     public void SendSystemInit() {
-    	MsgSystem msg = new MsgSystem(controller.model, "Init");
+    	MsgSystem msg = new MsgSystem(controller.model, "Init", "");
+		try {
+			controller.comSystem.SendUdp(BROADCAST, ComSystem.SERVSYST, msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void SendSystemInitAnswer() {
+    	MsgSystem msg = new MsgSystem(controller.model, "InitAnswer", "");
 		try {
 			controller.comSystem.SendUdp(BROADCAST, ComSystem.SERVSYST, msg);
 		} catch (IOException e) {
