@@ -14,9 +14,10 @@ public class Model {
 
     public List<ChatSession> chatSession ;
     
-    public Model(User currentUserIn)
+    
+    //Construction du model sans utilistaure pour l'instant. Il faut instancier un utilsiateur dés sa connexion! 
+    public Model()
     {
-    	currentUser = currentUserIn;
     	msg = new ArrayList<Msg> ();
     	chatSession = new ArrayList<ChatSession> ();
     	connectedUserList = new ArrayList<User> ();

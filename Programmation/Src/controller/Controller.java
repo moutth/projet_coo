@@ -12,9 +12,9 @@ public class Controller {
 	public Database database;
 	public ComSystem comSystem;
 
-	public Controller(Model inModel) {
+	public Controller(Model inModel) throws ClassNotFoundException {
 		model = inModel;
-		database = new Database(this);
+		this.database = new Database(this);;
 		comSystem = new ComSystem(this);
 	}
 
