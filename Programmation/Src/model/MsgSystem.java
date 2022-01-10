@@ -6,7 +6,7 @@ public class MsgSystem extends Msg {
 	
 	public Model model;
 	
-	public ArrayList<String> arg;	// 0 is the name of the message type
+	private ArrayList<String> arg;	// 0 is the name of the message type
 	
 	public MsgSystem(Model modelIn, String msgType, String optArg) {
 		model = modelIn;
@@ -59,6 +59,7 @@ public class MsgSystem extends Msg {
 	}
 	
 	public String getArg(int i) {
+		// when available : 1 is the ID, 2 is the pseudo
 		return arg.get(i);
 	}
 

@@ -12,7 +12,6 @@ public class GUIConnexion {
     
     public Controller controller;
 
-    
     public Model model;
 
     public GUIConnexion(Controller controller, Model model)
@@ -30,8 +29,4 @@ public class GUIConnexion {
 			}
 		});	
     }
-    
-    public void InitConnexion() {
-    }
-
 }

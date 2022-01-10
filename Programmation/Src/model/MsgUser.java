@@ -4,6 +4,14 @@ package model;
 
 public class MsgUser extends Msg {
     
-    public String content;
+    private String content;
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 
 }

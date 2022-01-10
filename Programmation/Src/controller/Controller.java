@@ -14,7 +14,7 @@ public class Controller {
 
 	public Controller(Model inModel) throws ClassNotFoundException {
 		model = inModel;
-		this.database = new Database(this);;
+		this.database = new Database(this);
 		comSystem = new ComSystem(this);
 	}
 
@@ -22,9 +22,6 @@ public class Controller {
 		model = inModel;
 		guiPrincipale = inguiPrincipale;
 		guiConnexion = inguiConnexion;
-	}
-
-	public void ChangePseudo(String pseudo) {
 	}
 
 }
