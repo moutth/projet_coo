@@ -1,22 +1,18 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import controller.ComSystem;
+
 import controller.Controller;
 import model.Model;
-import model.MsgSystem;
+
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 

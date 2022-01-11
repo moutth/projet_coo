@@ -1,7 +1,6 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,8 +11,6 @@ import model.Model;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import java.awt.TextField;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

@@ -1,12 +1,8 @@
 package gui;
 import java.awt.EventQueue;
-import java.util.ArrayList;
 
 import controller.Controller;
-import model.ChatSession;
 import model.Model;
-import model.Msg;
-import model.User;
 
 public class GUIConnexion {
     

@@ -2,9 +2,9 @@ package controller;
 
 import java.util.List;
 import model.MsgUser;
+import model.User;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,7 +65,32 @@ public class Database {
 
 	}
 
-	public void SaveMsg(MsgUser msg) {
+	public void SaveMsg(User sender, User receiver,MsgUser msg) {
+		String url = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/tp_servlet_010?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		String user_base = "tp_servlet_010";
+		String pass_base = "fuu6eePh";
+		
+		try {
+			Connection connection = DriverManager.getConnection(url, user_base, pass_base);
+			System.out.println("Connection To The Database");
+			String sql_insertMessage= "INSERT INTO messagehistory (idSender, idReceiver, message, sendDate) VALUES(? ,?, ?, ?)";
+			PreparedStatement statement_insertMessage = connection.prepareStatement(sql_insertMessage);
+			statement_insertMessage.setInt(1, sender.getUserID());
+			statement_insertMessage.setInt(2, receiver.getUserID());
+			statement_insertMessage.setString(3, msg.getContent());
+			statement_insertMessage.setDate(4, null);
+			int rows = statement_insertMessage.executeUpdate();
+			if (rows > 0) {
+				System.out.println("A row has been inserted");
+
+			}
+					
+		} catch (SQLException e) {
+
+			System.out.println("Database Connection Failed !\n" + e);
+			e.printStackTrace();
+		}
+		
 	}
 
 	public boolean Login(String username, String password) {
@@ -129,7 +154,7 @@ public class Database {
 			}
 			statment_selec.close();
 			if (unique) {
-				String sql_insert = "INSERT INTO userinscris (username, password) vALUES(? ,?)";
+				String sql_insert = "INSERT INTO userinscris (username, password) VALUES(? ,?)";
 				PreparedStatement statement_insert = connection.prepareStatement(sql_insert);
 				statement_insert.setString(1, username);
 				statement_insert.setString(2, password);

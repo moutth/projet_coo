@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,8 +14,6 @@ import model.User;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JLabel;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -146,6 +142,7 @@ public class Principal extends JFrame {
 		changepseudoButton.setBounds(134, 0, 145, 35);
 		contentPane.add(changepseudoButton);
 		chatPanel.setVisible(false);
+		
 	}
 
 	
