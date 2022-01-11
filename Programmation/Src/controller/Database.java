@@ -73,12 +73,11 @@ public class Database {
 		try {
 			Connection connection = DriverManager.getConnection(url, user_base, pass_base);
 			System.out.println("Connection To The Database");
-			String sql_insertMessage= "INSERT INTO messagehistory (idSender, idReceiver, message, sendDate) VALUES(? ,?, ?, ?)";
+			String sql_insertMessage= "INSERT INTO messagehistory (idSender, idReceiver, message VALUES(? ,?, ?)";
 			PreparedStatement statement_insertMessage = connection.prepareStatement(sql_insertMessage);
 			statement_insertMessage.setInt(1, sender.getUserID());
 			statement_insertMessage.setInt(2, receiver.getUserID());
 			statement_insertMessage.setString(3, msg.getContent());
-			statement_insertMessage.setDate(4, null);
 			int rows = statement_insertMessage.executeUpdate();
 			if (rows > 0) {
 				System.out.println("A row has been inserted");
