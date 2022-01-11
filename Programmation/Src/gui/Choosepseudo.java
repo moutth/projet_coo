@@ -17,6 +17,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class Choosepseudo extends JFrame {
 
@@ -26,6 +27,7 @@ public class Choosepseudo extends JFrame {
 	private Model model;
 	private Principal principal;
 	private Connexion connexion;
+	private JLabel notavailable;
 	/**
 	 * Create the frame.
 	 */
@@ -62,12 +64,19 @@ public class Choosepseudo extends JFrame {
 					controller.comSystem.SendSystemConnexion();
 				}
 				else {
-					// print msg err					
+					
+					notavailable.setVisible(true);					
 				}
 			}
 		});
 		btnConfirm.setBounds(41, 63, 117, 25);
 		contentPane.add(btnConfirm);
+		
+		notavailable = new JLabel("Your pseudo is not available, please choose another one!");
+		notavailable.setForeground(Color.RED);
+		notavailable.setBounds(12, 100, 424, 25);
+		notavailable.setVisible(false);
+		contentPane.add(notavailable);
 	}
 	
 	void FermerFenetre() {
@@ -77,6 +86,4 @@ public class Choosepseudo extends JFrame {
 	public Connexion getConnexion() {
 		return connexion;
 	}
-	
-	
 }

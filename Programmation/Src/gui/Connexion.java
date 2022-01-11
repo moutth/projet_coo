@@ -140,6 +140,7 @@ public class Connexion extends JFrame {
 	public void comebackPrincipal() {
 		usernameField.setText("");
 		passwordField.setText("");
+		can_login.setVisible(false);
 		this.setVisible(true);
 	}
 	

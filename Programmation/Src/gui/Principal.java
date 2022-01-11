@@ -11,6 +11,7 @@ import javax.swing.event.ListSelectionListener;
 
 import controller.Controller;
 import model.Model;
+import model.User;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -111,6 +112,7 @@ public class Principal extends JFrame {
 		sendmessageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Envoyer le message Via TCP
+				User u  = model.getCurrentUser();
 			}
 		});
 		sendmessageButton.setBounds(267, 350, 53, 43);

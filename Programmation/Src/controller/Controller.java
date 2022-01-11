@@ -1,14 +1,12 @@
 package controller;
 
 import gui.GUIConnexion;
-import gui.GUIPrincipale;
 import model.Model;
 
 public class Controller {
 
 	public GUIConnexion guiConnexion;
 	public Model model;
-	public GUIPrincipale guiPrincipale;
 	public Database database;
 	public ComSystem comSystem;
 
@@ -18,9 +16,8 @@ public class Controller {
 		comSystem = new ComSystem(this);
 	}
 
-	Controller(Model inModel, GUIConnexion inguiConnexion, GUIPrincipale inguiPrincipale) {
+	Controller(Model inModel, GUIConnexion inguiConnexion) {
 		model = inModel;
-		guiPrincipale = inguiPrincipale;
 		guiConnexion = inguiConnexion;
 	}
 
