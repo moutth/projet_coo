@@ -20,6 +20,7 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
@@ -32,10 +33,12 @@ public class Principal extends JFrame {
 	private JPanel chatPanel;
 	private Connexion connexion;
 	private JTextField messageField;
+	private User activeuser;
+
 	/**
 	 * Create the frame.
 	 */
-	public Principal(Controller controller, Model model, Connexion connexion ) {
+	public Principal(Controller controller, Model model, Connexion connexion) {
 		this.controller = controller;
 		this.model = model;
 		this.connexion = connexion;
@@ -45,13 +48,14 @@ public class Principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		String[] test_user = { "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test2", "test3", "test4",
-				"test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6", "test7", "test2", "test3",
-				"test4", "test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6", "test7", "test2",
-				"test3", "test4", "test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6", "test7",
-				"test2", "test3", "test4", "test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6",
-				"test7" };
+
+//		String[] test_user = { "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test2", "test3", "test4",
+//				"test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6", "test7", "test2", "test3",
+//				"test4", "test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6", "test7", "test2",
+//				"test3", "test4", "test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6", "test7",
+//				"test2", "test3", "test4", "test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6",
+//				"test7" };
+		String[] test_user = pseudoConnecter();
 		JList connecter_user = new JList(test_user);
 		connecter_user.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
 
@@ -60,11 +64,16 @@ public class Principal extends JFrame {
 					JList source = (JList) event.getSource();
 					String selected = source.getSelectedValue().toString();
 					System.out.println(selected);
-				
-						activeUser.setText(selected);
-						chatPanel.setVisible(true);
-						// activeUser.setText(selected);
-					
+					ArrayList<User> List = model.connectedUserList;
+					for (int i = 0; i < List.size(); i++) {
+						if (List.get(i).getPseudo().equals(selected)) {
+							activeuser = List.get(i);
+						}
+					}
+					activeUser.setText(selected);
+					chatPanel.setVisible(true);
+					// activeUser.setText(selected);
+
 				}
 			}
 		});
@@ -92,7 +101,7 @@ public class Principal extends JFrame {
 		});
 		reduceButon.setBounds(234, 1, 86, 37);
 		chatPanel.add(reduceButon);
-		
+
 		JButton deletButoon = new JButton("Delet");
 		deletButoon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -102,22 +111,22 @@ public class Principal extends JFrame {
 		});
 		deletButoon.setBounds(152, 1, 86, 37);
 		chatPanel.add(deletButoon);
-		
+
 		messageField = new JTextField();
 		messageField.setBounds(10, 350, 248, 43);
 		chatPanel.add(messageField);
 		messageField.setColumns(10);
-		
+
 		JButton sendmessageButton = new JButton(">");
 		sendmessageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Envoyer le message Via TCP
-				User u  = model.getCurrentUser();
+				// Envoyer le message Via TCP
+				User u = model.getCurrentUser();
 			}
 		});
 		sendmessageButton.setBounds(267, 350, 53, 43);
 		chatPanel.add(sendmessageButton);
-		
+
 		JButton disconnectButton = new JButton("Disconnect");
 		disconnectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -127,25 +136,33 @@ public class Principal extends JFrame {
 		});
 		disconnectButton.setBounds(12, 0, 117, 35);
 		contentPane.add(disconnectButton);
-		
+
 		JButton changepseudoButton = new JButton("Change Pseudo");
 		changepseudoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//appel de fonction de changement de pseudo
+				// appel de fonction de changement de pseudo
 			}
 		});
 		changepseudoButton.setBounds(134, 0, 145, 35);
 		contentPane.add(changepseudoButton);
 		chatPanel.setVisible(false);
 	}
-	
+
 	
 	public Connexion getConnexion() {
 		return connexion;
 	}
 
-
-	void FermerFenetre() {
+	private String[] pseudoConnecter() {
+		ArrayList<User> List = model.connectedUserList;
+		String[] pseudoList = new String[List.size()];
+		for (int i = 0; i < List.size(); i++) {
+			pseudoList[i] = List.get(i).getPseudo();
+		}
+		return pseudoList;
+	}
+	
+	private void FermerFenetre() {
 		this.setVisible(false);
 	}
 }
