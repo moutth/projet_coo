@@ -2,6 +2,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import gui.Principal;
+
 
 public class Model {
     public User[] globalUserList;
@@ -14,6 +16,8 @@ public class Model {
 
     public List<ChatSession> chatSession ;
     
+    private Principal principal; 
+    
     //Construction du model sans utilisteur pour l'instant. Il faut instancier un utilsiateur dès sa connexion 
     public Model()
     {
@@ -25,6 +29,7 @@ public class Model {
     
     public void AddUser(User userToAdd) {
     	connectedUserList.add(userToAdd);
+    	
     }
 
     public void RemoveUser(int userID) {
@@ -70,4 +75,13 @@ public class Model {
 		this.currentUser = currentUser;
 	}
 
+	public Principal getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(Principal principal) {
+		this.principal = principal;
+	}
+
+	
 }

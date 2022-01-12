@@ -30,7 +30,8 @@ public class Principal extends JFrame {
 	private Connexion connexion;
 	private JTextField messageField;
 	private User activeuser;
-
+	JList connected_list;
+	String[] connected_string;
 	/**
 	 * Create the frame.
 	 */
@@ -51,9 +52,9 @@ public class Principal extends JFrame {
 //				"test3", "test4", "test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6", "test7",
 //				"test2", "test3", "test4", "test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6",
 //				"test7" };
-		String[] test_user = pseudoConnecter();
-		JList connecter_user = new JList(test_user);
-		connecter_user.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
+		connected_string = pseudoConnecter();
+		connected_list = new JList(connected_string);
+		connected_list.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
 
 			public void valueChanged(ListSelectionEvent event) {
 				if (!event.getValueIsAdjusting()) {
@@ -73,7 +74,7 @@ public class Principal extends JFrame {
 				}
 			}
 		});
-		JScrollPane scrollPane = new JScrollPane(connecter_user);
+		JScrollPane scrollPane = new JScrollPane(connected_list);
 		scrollPane.setBounds(344, 47, 170, 360);
 		contentPane.add(scrollPane);
 
@@ -159,6 +160,14 @@ public class Principal extends JFrame {
 		return pseudoList;
 	}
 	
+	private void updatConnecter() {
+		ArrayList<User> List = model.connectedUserList;
+		String[] pseudoList = new String[List.size()];
+		for (int i = 0; i < List.size(); i++) {
+			pseudoList[i] = List.get(i).getPseudo();
+		}
+		
+	}
 	private void FermerFenetre() {
 		this.setVisible(false);
 	}

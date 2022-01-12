@@ -54,6 +54,7 @@ public class Choosepseudo extends JFrame {
 				String pseudo = textField.getText();
 				if (model.IsAvailable(pseudo)) {
 					principal = new Principal (controller, model,getConnexion());
+					model.setPrincipal(principal);
 					principal.setVisible(true);                                                            
 					FermerFenetre();
 					
