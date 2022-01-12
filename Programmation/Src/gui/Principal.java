@@ -60,16 +60,20 @@ public class Principal extends JFrame {
 				if (!event.getValueIsAdjusting()) {
 					JList source = (JList) event.getSource();
 					String selected = source.getSelectedValue().toString();
+					//DEBUG
 					System.out.println(selected);
-					ArrayList<User> List = model.connectedUserList;
-					for (int i = 0; i < List.size(); i++) {
-						if (List.get(i).getPseudo().equals(selected)) {
-							activeuser = List.get(i);
+					ArrayList<User> connectedUserList = model.getConnectedUserList();
+					for (int i = 0; i < connectedUserList.size(); i++) {
+						if (connectedUserList.get(i).getPseudo().equals(selected)) {
+							activeuser = connectedUserList.get(i);
 						}
 					}
+					// set pseudo in title of the chat pannel
 					activeUser.setText(selected);
 					chatPanel.setVisible(true);
 					// activeUser.setText(selected);
+					
+					controller.comSystem.EstablishConnexion(activeuser);
 
 				}
 			}
@@ -98,16 +102,18 @@ public class Principal extends JFrame {
 		});
 		reduceButon.setBounds(234, 1, 86, 37);
 		chatPanel.add(reduceButon);
-
-		JButton deletButoon = new JButton("Delet");
-		deletButoon.addActionListener(new ActionListener() {
+		
+		JButton endButton = new JButton("End");
+		endButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				chatPanel.setVisible(false);
+				controller.comSystem.EndConnexion(activeuser);
+				//DEBUG
 				activeUser.setText("lol");
 			}
 		});
-		deletButoon.setBounds(152, 1, 86, 37);
-		chatPanel.add(deletButoon);
+		endButton.setBounds(152, 1, 86, 37);
+		chatPanel.add(endButton);
 
 		messageField = new JTextField();
 		messageField.setBounds(10, 350, 248, 43);
@@ -129,6 +135,7 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FermerFenetre();
 				getConnexion().comebackPrincipal();
+				controller.comSystem.SendSystemDeconnexion();
 			}
 		});
 		disconnectButton.setBounds(12, 0, 117, 35);
@@ -137,7 +144,8 @@ public class Principal extends JFrame {
 		JButton changepseudoButton = new JButton("Change Pseudo");
 		changepseudoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// appel de fonction de changement de pseudo
+				// create new panel
+				//model.ChangePseudo(model.getCurrentUser(), getName());
 			}
 		});
 		changepseudoButton.setBounds(134, 0, 145, 35);
