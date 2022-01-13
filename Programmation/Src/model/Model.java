@@ -29,19 +29,22 @@ public class Model {
     
     public void AddUser(User userToAdd) {
     	connectedUserList.add(userToAdd);
-    	
+    	principal.addConnecteduser(userToAdd);
     }
 
     public void RemoveUser(int userID) {
 		int index = -1;
+		User removed = null;
     	for (int i = 0; i < connectedUserList.size(); i++) {
 			if (connectedUserList.get(i).getUserID() == userID) {
 				index = i;
 			}
     	}
     	if (index != -1) {
-    		connectedUserList.remove(index);
+    		
+    		removed = connectedUserList.remove(index);
     	}
+    	principal.removeConnecteduser(removed);
     }
     
     public void ChangePseudo(int userID, String newPseudo) {

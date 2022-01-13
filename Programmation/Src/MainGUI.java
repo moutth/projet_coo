@@ -1,7 +1,5 @@
-import java.awt.EventQueue;
 
 import controller.Controller;
-import gui.Connexion;
 import gui.GUIConnexion;
 import model.Model;
 

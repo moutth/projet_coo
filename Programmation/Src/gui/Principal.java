@@ -1,6 +1,5 @@
 package gui;
 
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -9,14 +8,20 @@ import javax.swing.event.ListSelectionListener;
 
 import controller.Controller;
 import model.Model;
+import model.MsgUser;
 import model.User;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JLabel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
@@ -29,13 +34,18 @@ public class Principal extends JFrame {
 	private JPanel chatPanel;
 	private Connexion connexion;
 	private JTextField messageField;
+	JScrollPane messagesScroll;
+	JList<String> messages_list;
+	DefaultListModel<String> messages_string;
 	private User activeuser;
-	JList connected_list;
-	String[] connected_string;
+	JList<String> connected_list;
+	DefaultListModel<String> connected_string;
+
 	/**
 	 * Create the frame.
 	 */
 	public Principal(Controller controller, Model model, Connexion connexion) {
+
 		this.controller = controller;
 		this.model = model;
 		this.connexion = connexion;
@@ -52,8 +62,10 @@ public class Principal extends JFrame {
 //				"test3", "test4", "test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6", "test7",
 //				"test2", "test3", "test4", "test5", "test6", "test7", "test2", "test3", "test4", "test5", "test6",
 //				"test7" };
-		connected_string = pseudoConnecter();
-		connected_list = new JList(connected_string);
+		InitializeConnected();
+		connected_string = new DefaultListModel<>();
+		connected_string.addElement("toto1");
+		connected_list = new JList<>(connected_string);
 		connected_list.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
 
 			public void valueChanged(ListSelectionEvent event) {
@@ -69,11 +81,18 @@ public class Principal extends JFrame {
 					}
 					activeUser.setText(selected);
 					chatPanel.setVisible(true);
-					// activeUser.setText(selected);
-
+					// activeUser.setText(selected)
+					// Envoyer le message Via TCP
+					User userSender = new User(2, "test", "test");
+					User userReceiver = new User(1, "test", "test");
+					// MsgUser msg = new MsgUser("oui et toi ?");
+					// controller.database.SaveMsg(userSender, userReceiver, msg);
+					List<MsgUser> allMessages = controller.database.GetHistory(userSender, userReceiver);
+					InitMessages(allMessages);
 				}
 			}
 		});
+
 		JScrollPane scrollPane = new JScrollPane(connected_list);
 		scrollPane.setBounds(344, 47, 170, 360);
 		contentPane.add(scrollPane);
@@ -82,10 +101,12 @@ public class Principal extends JFrame {
 		chatPanel.setBounds(12, 47, 332, 405);
 		contentPane.add(chatPanel);
 		chatPanel.setLayout(null);
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(0, 39, 320, 299);
-		chatPanel.add(scrollPane_1);
+		
+		messages_string = new DefaultListModel<>();
+		messages_list = new JList<>(messages_string);
+		messagesScroll = new JScrollPane(messages_list);
+		messagesScroll.setBounds(0, 39, 320, 299);
+		chatPanel.add(messagesScroll);
 
 		activeUser = new JLabel("lol");
 		activeUser.setBounds(12, 12, 70, 15);
@@ -117,8 +138,10 @@ public class Principal extends JFrame {
 		JButton sendmessageButton = new JButton(">");
 		sendmessageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Envoyer le message Via TCP
-				User u = model.getCurrentUser();
+			    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+			    Date date = new Date();
+				String msg = "moi: " + messageField.getText() + " ( "+ formatter.format(date)+ " ) ";
+				messages_string.addElement(msg);
 			}
 		});
 		sendmessageButton.setBounds(267, 350, 53, 43);
@@ -143,31 +166,45 @@ public class Principal extends JFrame {
 		changepseudoButton.setBounds(134, 0, 145, 35);
 		contentPane.add(changepseudoButton);
 		chatPanel.setVisible(false);
-		
+
 	}
 
-	
 	public Connexion getConnexion() {
 		return connexion;
 	}
 
-	private String[] pseudoConnecter() {
+	private void InitializeConnected() {
 		ArrayList<User> List = model.connectedUserList;
-		String[] pseudoList = new String[List.size()];
 		for (int i = 0; i < List.size(); i++) {
-			pseudoList[i] = List.get(i).getPseudo();
+			connected_string.addElement(List.get(i).getPseudo());
 		}
-		return pseudoList;
 	}
-	
-	private void updatConnecter() {
-		ArrayList<User> List = model.connectedUserList;
-		String[] pseudoList = new String[List.size()];
-		for (int i = 0; i < List.size(); i++) {
-			pseudoList[i] = List.get(i).getPseudo();
+
+	private void InitMessages(List<MsgUser> allMessages) {
+		String currentString;
+		for (int i = 0 ; i < allMessages.size() ; i++)
+		{
+			MsgUser msg = allMessages.get(i);
+			if (msg.getIdSender() == model.getCurrentUser().getUserID())
+			{
+				currentString = "moi: " + msg.getContent() + " ( " + msg.getDate() + " )";
+			}
+			else
+			{
+				currentString = "autre "  +": " + msg.getContent() + " ( " + msg.getDate() + " )";
+			}
+			messages_string.addElement(currentString);
 		}
-		
 	}
+
+	public void addConnecteduser(User user) {
+		connected_string.addElement(user.getPseudo());
+	}
+
+	public void removeConnecteduser(User user) {
+		connected_string.removeElement(user.getPseudo());
+	}
+
 	private void FermerFenetre() {
 		this.setVisible(false);
 	}

@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.LinkedList;
 import java.util.List;
 import model.MsgUser;
 import model.User;
@@ -18,62 +19,18 @@ public class Database {
 
 	Database(Controller controller) throws ClassNotFoundException {
 		this.controller = controller;
-		
-	}
-
-	public static void createNewDatabase(String fileName) throws ClassNotFoundException {
-
-		Class.forName("org.sqlite.JDBC");
-		Connection connection = null;
-		try {
-			// create a database connection
-			connection = DriverManager.getConnection("jdbc:sqlite:sample.db");
-
-			Statement statement = connection.createStatement();
-			statement.setQueryTimeout(30); // set timeout to 30 sec.
-
-			statement.executeUpdate("DROP TABLE IF EXISTS users");
-			statement.executeUpdate("CREATE TABLE users (name STRING, password STRING)");
-
-			String names[] = { "Peter", "Pallar", "William", "Paul", "James Bond" };
-
-			for (int i = 0; i < names.length; i++) {
-				statement.executeUpdate("INSERT INTO users values(' " + names[i] + "', '" + names[i] + "')");
-			}
-
-			// statement.executeUpdate("UPDATE person SET name='Peter' WHERE id='1'");
-			// statement.executeUpdate("DELETE FROM person WHERE id='1'");
-
-			ResultSet resultSet = statement.executeQuery("SELECT * from users");
-			while (resultSet.next()) {
-				// iterate & read the result set
-				System.out.println("name = " + resultSet.getString("name"));
-				System.out.println("Password = " + resultSet.getString("password"));
-			}
-		}
-
-		catch (SQLException e) {
-			System.err.println(e.getMessage());
-		} finally {
-			try {
-				if (connection != null)
-					connection.close();
-			} catch (SQLException e) { // Use SQLException class instead.
-				System.err.println(e);
-			}
-		}
 
 	}
 
-	public void SaveMsg(User sender, User receiver,MsgUser msg) {
+	public void SaveMsg(User sender, User receiver, MsgUser msg) {
 		String url = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/tp_servlet_010?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		String user_base = "tp_servlet_010";
 		String pass_base = "fuu6eePh";
-		
+
 		try {
 			Connection connection = DriverManager.getConnection(url, user_base, pass_base);
 			System.out.println("Connection To The Database");
-			String sql_insertMessage= "INSERT INTO messagehistory (idSender, idReceiver, message VALUES(? ,?, ?)";
+			String sql_insertMessage = "INSERT INTO messagehistory (idSender, idReceiver, message) VALUES(? ,?, ?)";
 			PreparedStatement statement_insertMessage = connection.prepareStatement(sql_insertMessage);
 			statement_insertMessage.setInt(1, sender.getUserID());
 			statement_insertMessage.setInt(2, receiver.getUserID());
@@ -83,13 +40,43 @@ public class Database {
 				System.out.println("A row has been inserted");
 
 			}
-					
+
 		} catch (SQLException e) {
 
 			System.out.println("Database Connection Failed !\n" + e);
 			e.printStackTrace();
 		}
-		
+
+	}
+
+	public List<MsgUser> GetHistory(User sender, User receiver) {
+		String url = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/tp_servlet_010?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		String user_base = "tp_servlet_010";
+		String pass_base = "fuu6eePh";
+		List<MsgUser> allMessages = new LinkedList<MsgUser>();
+		try {
+			Connection connection = DriverManager.getConnection(url, user_base, pass_base);
+			System.out.println("Connection To The Database");
+			String sql_get_messages = "SELECT * from messagehistory WHERE (idReceiver = " + sender.getUserID()
+					+ " AND idSender = " + receiver.getUserID()+ " ) OR (idReceiver = "+ receiver.getUserID() +
+					" AND idSender = " + sender.getUserID()+") ORDER BY sendDate ASC";
+			Statement statment_selec_messages = connection.createStatement();
+			ResultSet result_select = statment_selec_messages.executeQuery(sql_get_messages);
+			
+	        while (result_select.next()) {
+	        	int id = result_select.getInt(1);
+	    		String contenent = result_select.getString(3);
+		        String date = result_select.getString(4); 
+		        MsgUser msg = new MsgUser(id, contenent, date);
+		        allMessages.add(msg);
+			}
+	        
+		} catch (SQLException e) {
+
+			System.out.println("Database Connection Failed !\n" + e);
+			e.printStackTrace();
+		}
+		return allMessages;
 	}
 
 	public boolean Login(String username, String password) {
@@ -103,7 +90,7 @@ public class Database {
 			Statement statment_selec = connection.createStatement();
 			ResultSet result_select = statment_selec.executeQuery(sql_select);
 			boolean connected = false;
-			
+
 			while (result_select.next() && connected == false) {
 				String username_inscris = result_select.getString(2);
 				String username_password = result_select.getString(3);
@@ -114,16 +101,13 @@ public class Database {
 				}
 			}
 
-			if (connected)
-			{
+			if (connected) {
 				statment_selec.close();
 				connection.close();
-				System.out.println("Connected to your account!\n" );
+				System.out.println("Connected to your account!\n");
 				return true;
-			}
-			else
-			{
-				System.out.println("Username or Password are wrong\n" );
+			} else {
+				System.out.println("Username or Password are wrong\n");
 				return false;
 			}
 		} catch (SQLException e) {
@@ -165,16 +149,12 @@ public class Database {
 				statement_insert.close();
 				connection.close();
 				return true;
-				
-			}
-			else
-			{
+
+			} else {
 				System.out.println("Your username is aleardy used !");
 				connection.close();
 				return false;
 			}
-			
-			
 
 		} catch (SQLException e) {
 
@@ -186,10 +166,6 @@ public class Database {
 
 	public String GetLastPseudoUsed() {
 		return "";
-	}
-
-	public List<MsgUser> GetHistory(String pseudo) {
-		return null;
 	}
 
 }
