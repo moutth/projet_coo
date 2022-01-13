@@ -89,4 +89,7 @@ public class ServChat extends Thread {
 		start();
 	}
 	
+	public void end() {
+		running = false;
+	}
 }

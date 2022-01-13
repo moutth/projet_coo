@@ -10,7 +10,7 @@ public class Model {
 
     public ArrayList<User> connectedUserList;
 
-    private User currentUser ;
+	private User currentUser ;
 
     public List<Msg> msg ;
 
@@ -86,5 +86,8 @@ public class Model {
 		this.principal = principal;
 	}
 
+    public ArrayList<User> getConnectedUserList() {
+		return connectedUserList;
+	}
 	
 }

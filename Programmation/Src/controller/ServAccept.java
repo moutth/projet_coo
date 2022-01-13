@@ -30,7 +30,7 @@ public class ServAccept extends Thread {
 		
 		while(running) {
 			try {
-				comSystem.servChat.add(new ServChat(comSystem, acceptSocket.accept()));
+				comSystem.servChatList.add(new ServChat(comSystem, acceptSocket.accept()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
