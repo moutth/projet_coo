@@ -30,6 +30,7 @@ public class Inscription extends JFrame {
 	 * Create the frame.
 	 */
 	public Inscription(Controller controller, Connexion connexion, Model model) {
+		this.setTitle("ChatSystem: Register");
 		this.connexion = connexion;
 		this.controller = controller;
 		this.model = model;

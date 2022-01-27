@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 import model.Model;
 import model.User;
@@ -30,7 +31,9 @@ public class ServAccept extends Thread {
 		
 		while(running) {
 			try {
-				comSystem.servChatList.add(new ServChat(comSystem, acceptSocket.accept()));
+				Socket chatSocket = acceptSocket.accept();
+				comSystem.servChatInList.add(new ServChatIn(comSystem, chatSocket));
+				comSystem.servChatInListID.add(model.IdFromIp(chatSocket.getInetAddress().toString()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

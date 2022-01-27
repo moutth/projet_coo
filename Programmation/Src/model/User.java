@@ -11,6 +11,8 @@ public class User {
     private int userID;
     
     public User(){
+    	//valeur par défaut
+    	pseudo = "!";
     }
     
     public User(int userIDin, String pseudoin, String ipin){

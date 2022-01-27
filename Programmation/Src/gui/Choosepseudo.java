@@ -29,6 +29,7 @@ public class Choosepseudo extends JFrame {
 	 * Create the frame.
 	 */
 	public Choosepseudo(Controller controller, Model model, Connexion connexion) {
+		this.setTitle("ChatSystem: ChoosePseudo");
 		this.controller = controller;
 		this.model = model;
 		this.connexion = connexion;
@@ -53,13 +54,13 @@ public class Choosepseudo extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				String pseudo = textField.getText();
 				if (model.IsAvailable(pseudo)) {
+					model.getCurrentUser().setPseudo(pseudo);
+					controller.comSystem.SendSystemConnexion();
 					principal = new Principal (controller, model,getConnexion());
 					model.setPrincipal(principal);
 					principal.setVisible(true);                                                            
 					FermerFenetre();
 					
-					model.getCurrentUser().setPseudo(pseudo);
-					controller.comSystem.SendSystemConnexion();
 				}
 				else {
 					

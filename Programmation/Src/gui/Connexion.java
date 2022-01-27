@@ -36,6 +36,7 @@ public class Connexion extends JFrame {
 	 * Create the frame.
 	 */
 	public Connexion(Controller controller, Model model) {
+		this.setTitle("ChatSystem: Login");
 		this.controller = controller;
 		this.model = model;
 		this.sign_up = false;

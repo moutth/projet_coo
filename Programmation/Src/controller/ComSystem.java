@@ -27,10 +27,15 @@ public class ComSystem {
 	public ServSystem servSystem;
 	// socket d'acceptation des demandes de connexion TCP
 	public ServAccept servAccept;
-	// liste des sockets TCP pour chatter
-	public List<ServChat> servChatList;
+	// liste des sockets TCP de réception de chat
+	public List<ServChatIn> servChatInList;
+	// liste des sockets TCP d'envoi de chat
+	public List<ServChatOut> servChatOutList;
 	// liste des id de chaque destinataire des servChat
-	public List<Integer> servChatListID;
+	public List<Integer> servChatInListID;
+	public List<Integer> servChatOutListID;
+	
+	public List<ChatThread> chatThreads;
 
 	public String localIP;
 
@@ -38,13 +43,19 @@ public class ComSystem {
 		controller = in;
 		servSystem = new ServSystem(this);
 		servAccept = new ServAccept(this);
-		servChatList= new ArrayList<ServChat>();
-		servChatListID = new ArrayList<Integer>();
+		
+		servChatInList = new ArrayList<ServChatIn>();
+		servChatOutList = new ArrayList<ServChatOut>();
+		servChatOutListID = new ArrayList<Integer>();
+		servChatInListID = new ArrayList<Integer>();
+		
+		chatThreads = new ArrayList<ChatThread>();
+		
 		String ip = null;
 		try (final DatagramSocket socket = new DatagramSocket()) {
 			// create a socket only to get the local ip adress from it
 			socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
-			 ip = socket.getLocalAddress().getHostAddress();
+			ip = socket.getLocalAddress().getHostAddress();
 		} catch (SocketException e4) {
 			e4.printStackTrace();
 		} catch (UnknownHostException e) {
@@ -52,7 +63,7 @@ public class ComSystem {
 		}
 
 		localIP = ip;
-		//DEBUG
+		// DEBUG
 		System.out.println(localIP);
 		controller.model.getCurrentUser().setIp(localIP.toString());
 
@@ -62,24 +73,6 @@ public class ComSystem {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public void SendTCP(String ip, int port, MsgUser msg) throws UnknownHostException, IOException {
-		OutputStream outputStream;
-		OutputStreamWriter outputStreamWriter;
-
-		// etablissement de la connexion
-		Socket sendSocket = new Socket(ip, port);
-
-		// Instantiation pour écrire des données
-		outputStream = sendSocket.getOutputStream();
-		outputStreamWriter = new OutputStreamWriter(outputStream);
-
-		// Envoi de la donnée
-		outputStreamWriter.write(msg.toString()); // à modifier plus tard
-		outputStreamWriter.flush();
-
-		sendSocket.close();
 	}
 
 	public void SendUdp(InetAddress ip, int port, MsgSystem msg) throws IOException {
@@ -126,9 +119,18 @@ public class ComSystem {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void SendSystemDeconnexion() {
 		MsgSystem msg = new MsgSystem(controller.model, "Deconnexion", "");
+		try {
+			controller.comSystem.SendUdp(BROADCAST, ComSystem.SERVSYST, msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void SendSystemChangePseudo(String newPseudo) {
+		MsgSystem msg = new MsgSystem(controller.model, "ChangePseudo", "newPseudo");
 		try {
 			controller.comSystem.SendUdp(BROADCAST, ComSystem.SERVSYST, msg);
 		} catch (IOException e) {
@@ -138,45 +140,48 @@ public class ComSystem {
 
 	public void EstablishConnexion(User dest) {
 		try {
-			servChatList.add(new ServChat(this, dest, new Socket(dest.getIp(), SERVACCEPT)));
-			servChatListID.add(dest.getUserID());
+			servChatOutList.add(new ServChatOut(this, dest, new Socket(dest.getIp(), SERVACCEPT)));
+			servChatOutListID.add(dest.getUserID());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void EndConnexion(User Dest) {
-		int index;
-		if ((index = servChatListID.indexOf(Dest.getUserID())) != -1) {
-			servChatList.get(index).end();
-			servChatList.remove(index);
-			servChatListID.remove(index);
+	public void SendTo(int destID, String msg) {
+		ServChatOut servToDest;
+		if ((servToDest = ServChatTo(destID)) != null) {
+			servToDest.send(msg);
 		}
 	}
-	public void EndConnexion(int DestID) {
+
+	public void EndConnexion(int destID) {
 		int index;
-		if ((index = servChatListID.indexOf(DestID)) != -1) {
-			servChatList.get(index).end();
-			servChatList.remove(index);
-			servChatListID.remove(index);
+		if ((index = servChatInListID.indexOf(destID)) != -1) {
+			servChatInList.get(index).end();
+			servChatInList.remove(index);
+			servChatInListID.remove(index);
+		}
+		if ((index = servChatOutListID.indexOf(destID)) != -1) {
+			servChatOutList.get(index).end();
+			servChatOutList.remove(index);
+			servChatOutListID.remove(index);
 		}
 	}
-	
-	public ServChat servChatWith (User Dest) {
+
+	public ServChatIn ServChatFrom(int destID) {
 		int index;
-		if ((index = servChatListID.indexOf(Dest.getUserID())) != -1) {
-			return servChatList.get(index);
-		}
-		else {
+		if ((index = servChatInListID.indexOf(destID)) != -1) {
+			return servChatInList.get(index);
+		} else {
 			return null;
 		}
 	}
-	public ServChat servChatWith (int DestID) {
+	
+	public ServChatOut ServChatTo(int destID) {
 		int index;
-		if ((index = servChatListID.indexOf(DestID)) != -1) {
-			return servChatList.get(index);
-		}
-		else {
+		if ((index = servChatOutListID.indexOf(destID)) != -1) {
+			return servChatOutList.get(index);
+		} else {
 			return null;
 		}
 	}

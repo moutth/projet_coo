@@ -9,6 +9,7 @@ public class Model {
     public User[] globalUserList;
 
     public ArrayList<User> connectedUserList;
+    public ArrayList<String> pseudoConnectedList;
 
 	private User currentUser ;
 
@@ -18,18 +19,24 @@ public class Model {
     
     private Principal principal; 
     
-    //Construction du model sans utilisteur pour l'instant. Il faut instancier un utilsiateur dès sa connexion 
+    //Construction du model sans utilisateur pour l'instant. Il faut instancier un utilsiateur dès sa connexion 
     public Model()
     {
     	msg = new ArrayList<Msg> ();
     	chatSession = new ArrayList<ChatSession> ();
     	connectedUserList = new ArrayList<User> ();
+    	pseudoConnectedList = new ArrayList<String>();
     	currentUser = new User();
     }
     
-    public void AddUser(User userToAdd) {
-    	connectedUserList.add(userToAdd);
-    	principal.addConnecteduser(userToAdd);
+	public void AddUser(User userToAdd) {
+		if (!pseudoConnectedList.contains(userToAdd.getPseudo())) {
+			connectedUserList.add(userToAdd);
+			pseudoConnectedList.add(userToAdd.getPseudo());
+			if (!(principal == null)) {
+				principal.addConnecteduser(userToAdd);			
+			}			
+		}
     }
 
     public void RemoveUser(int userID) {
@@ -41,7 +48,7 @@ public class Model {
 			}
     	}
     	if (index != -1) {
-    		
+    		pseudoConnectedList.remove(index);
     		removed = connectedUserList.remove(index);
     	}
     	principal.removeConnecteduser(removed);
@@ -50,21 +57,42 @@ public class Model {
     public void ChangePseudo(int userID, String newPseudo) {
     	for (int i = 0; i < connectedUserList.size(); i++) {
 			if (connectedUserList.get(i).getUserID() == userID) {
+				principal.SomeoneChangedPseudo(userFromID(userID).getPseudo(), newPseudo);
 				connectedUserList.get(i).setPseudo(newPseudo);
+				pseudoConnectedList.set(i, newPseudo);
+				principal.updateMessageHistory();
 				break;
 			}
     	}
     }
 
     public boolean IsAvailable(String pseudo) {
-    	boolean available = true;
+        return !pseudoConnectedList.contains(pseudo);
+    }
+    
+    public User userFromID (int id) {
+    	User userFound = null;
     	for (int i = 0; i < connectedUserList.size(); i++) {
-			if (connectedUserList.get(i).getPseudo().equalsIgnoreCase(pseudo)) {
-				available = false;
+			if (connectedUserList.get(i).getUserID() == id) {
+				userFound = connectedUserList.get(i);
 				break;
 			}
+		}
+    	return userFound;
+    }
+    
+    public int IdFromIp (String ip) {
+    	int id = -1;
+    	if (ip.startsWith("/")) {
+    		ip = ip.substring(1);
     	}
-        return available;
+    	for (int i = 0; i < connectedUserList.size(); i++) {
+			if (connectedUserList.get(i).getIp().equals(ip)) {
+				id = connectedUserList.get(i).getUserID();
+				break;
+			}
+		}
+    	return id;
     }
 
     
@@ -81,6 +109,7 @@ public class Model {
 	public Principal getPrincipal() {
 		return principal;
 	}
+	
 
 	public void setPrincipal(Principal principal) {
 		this.principal = principal;
@@ -89,5 +118,8 @@ public class Model {
     public ArrayList<User> getConnectedUserList() {
 		return connectedUserList;
 	}
-	
+
+	public ArrayList<String> getPseudoConnectedList() {
+		return pseudoConnectedList;
+	}
 }

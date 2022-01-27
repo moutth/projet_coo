@@ -6,11 +6,13 @@ import java.net.*;
 
 public class ServSystem extends Thread {
 
-	private static final int BUFFSIZE = 256;
+	private static final int BUFFSIZE = 512;
 
 	private ComSystem comSystem;
 	private User currentUser;
 	private Model model;
+	
+	private boolean running = true;
 
 	ServSystem(ComSystem in) {
 		comSystem = in;
@@ -28,8 +30,8 @@ public class ServSystem extends Thread {
 		}
 
 		byte[] buffer = new byte[BUFFSIZE];
-
-		while (true) {
+		
+		while (running) {
 			DatagramPacket inPacket = new DatagramPacket(buffer, buffer.length);
 
 			try {
@@ -48,9 +50,11 @@ public class ServSystem extends Thread {
 				switch (msg.getType()) {
 
 				case "Init":
-					comSystem.SendSystemInitAnswer();
-					// Debug print
-					System.out.println("sent : " + new MsgSystem(model, "InitAnswer"));
+					if (!(model.getCurrentUser().getPseudo().equals("!"))) {
+						comSystem.SendSystemInitAnswer();
+						// Debug print
+						System.out.println("sent : " + new MsgSystem(model, "InitAnswer"));
+					}
 					break;
 					
 				case "InitAnswer":
@@ -74,6 +78,17 @@ public class ServSystem extends Thread {
 				}
 			}
 		}
+	}
+	
+	
+	// Getters & setters
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
 	}
 
 }
