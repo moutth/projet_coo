@@ -13,31 +13,12 @@ public class ServChatOut extends Thread {
 	private Model model;
 	
 	private Socket sendSocket;
-	private BufferedReader reader;
-	private BufferedWriter writer;
+	private DataOutputStream writer;
 	
 	private String toSend;
 	private boolean running;
 
 	private boolean sendWaiting;
-	
-	ServChatOut(ComSystem comSystem, Socket sendSocket){
-		this.comSystem = comSystem;
-		this.model = comSystem.controller.model;
-		this.currentUser = comSystem.controller.model.getCurrentUser();
-		sendWaiting = false;
-		running = true;
-		
-		this.sendSocket = sendSocket;
-		
-		try {
-			reader = new BufferedReader(new InputStreamReader(sendSocket.getInputStream()));
-			writer = new BufferedWriter(new OutputStreamWriter(sendSocket.getOutputStream()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		start();
-	}
 	
 	ServChatOut(ComSystem comSystem, User distant, Socket sendSocket){
 		this.comSystem = comSystem;
@@ -50,7 +31,7 @@ public class ServChatOut extends Thread {
 		this.sendSocket = sendSocket;
 		
 		try {
-			reader = new BufferedReader(new InputStreamReader(sendSocket.getInputStream()));
+			writer = new DataOutputStream(sendSocket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,11 +42,9 @@ public class ServChatOut extends Thread {
 		while(running) {
 			if (sendWaiting) {
 				try {
-					writer.write(toSend);
-					writer.newLine();
+					writer.writeUTF(toSend + '\n');
 					writer.flush();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				sendWaiting = false;

@@ -35,7 +35,8 @@ public class ComSystem {
 	public List<Integer> servChatInListID;
 	public List<Integer> servChatOutListID;
 	
-	public List<ChatThread> chatThreads;
+	public List<ChatThread> chatThreadsList;
+	public List<Integer> chatThreadsListID;
 
 	public String localIP;
 
@@ -49,7 +50,8 @@ public class ComSystem {
 		servChatOutListID = new ArrayList<Integer>();
 		servChatInListID = new ArrayList<Integer>();
 		
-		chatThreads = new ArrayList<ChatThread>();
+		chatThreadsList = new ArrayList<ChatThread>();
+		chatThreadsListID = new ArrayList<Integer>();
 		
 		String ip = null;
 		try (final DatagramSocket socket = new DatagramSocket()) {

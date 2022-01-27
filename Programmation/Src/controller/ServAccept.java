@@ -32,8 +32,8 @@ public class ServAccept extends Thread {
 		while(running) {
 			try {
 				Socket chatSocket = acceptSocket.accept();
-				comSystem.servChatInList.add(new ServChatIn(comSystem, chatSocket));
-				comSystem.servChatInListID.add(model.IdFromIp(chatSocket.getInetAddress().toString()));
+				comSystem.chatThreadsList.add(new ChatThread(chatSocket));
+				comSystem.chatThreadsListID.add(model.IdFromIp(chatSocket.getInetAddress().toString()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

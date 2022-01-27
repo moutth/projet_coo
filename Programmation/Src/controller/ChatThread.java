@@ -1,16 +1,41 @@
 package controller;
 
+import java.io.*;
 import java.net.*;
 
 public class ChatThread extends Thread {
 	Socket clientSock = null;
+	private DataInputStream reader;
 	
-	public ChatThread (Socket clientSock) {
-		super();
-		this.clientSock = clientSock;
+	private boolean running;
+	
+	public ChatThread (Socket receiveSocket) {
+		this.clientSock = receiveSocket;
+		try {
+			reader = new DataInputStream(new BufferedInputStream(receiveSocket.getInputStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		start();
 	}
 	
-	public void run () {
-		System.out.println("Handling client from port " + clientSock.getPort());
+	public void run() {
+		String line = "";
+		while(running) {
+			try {
+				line = reader.readUTF();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println(line);
+		}
+	}
+	
+	public void end() {
+		running = false;
+	}
+	
+	public boolean isRunning() {
+		return running;
 	}
 }
