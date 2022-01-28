@@ -27,12 +27,9 @@ public class ComSystem {
 	public ServSystem servSystem;
 	// socket d'acceptation des demandes de connexion TCP
 	public ServAccept servAccept;
-	// liste des sockets TCP de réception de chat
-	public List<ServChatIn> servChatInList;
 	// liste des sockets TCP d'envoi de chat
 	public List<ServChatOut> servChatOutList;
 	// liste des id de chaque destinataire des servChat
-	public List<Integer> servChatInListID;
 	public List<Integer> servChatOutListID;
 	
 	public List<ChatThread> chatThreadsList;
@@ -45,10 +42,8 @@ public class ComSystem {
 		servSystem = new ServSystem(this);
 		servAccept = new ServAccept(this);
 		
-		servChatInList = new ArrayList<ServChatIn>();
 		servChatOutList = new ArrayList<ServChatOut>();
 		servChatOutListID = new ArrayList<Integer>();
-		servChatInListID = new ArrayList<Integer>();
 		
 		chatThreadsList = new ArrayList<ChatThread>();
 		chatThreadsListID = new ArrayList<Integer>();
@@ -58,6 +53,7 @@ public class ComSystem {
 			// create a socket only to get the local ip adress from it
 			socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
 			ip = socket.getLocalAddress().getHostAddress();
+			socket.close();
 		} catch (SocketException e4) {
 			e4.printStackTrace();
 		} catch (UnknownHostException e) {
@@ -78,7 +74,6 @@ public class ComSystem {
 	}
 
 	public void SendUdp(InetAddress ip, int port, MsgSystem msg) throws IOException {
-		Scanner sc = new Scanner(System.in);
 
 		// Création de la socket avec un numéro de port aléatoire
 		DatagramSocket ds = new DatagramSocket();
@@ -89,8 +84,7 @@ public class ComSystem {
 		// Invoquer la méthode send pour envoyer les données
 		ds.send(DpSend);
 
-		// Fermeture des sockets
-		sc.close();
+		// Fermeture du sockets
 		ds.close();
 
 	}
@@ -158,10 +152,10 @@ public class ComSystem {
 
 	public void EndConnexion(int destID) {
 		int index;
-		if ((index = servChatInListID.indexOf(destID)) != -1) {
-			servChatInList.get(index).end();
-			servChatInList.remove(index);
-			servChatInListID.remove(index);
+		if ((index = chatThreadsListID.indexOf(destID)) != -1) {
+			chatThreadsList.get(index).end();
+			chatThreadsList.remove(index);
+			chatThreadsListID.remove(index);
 		}
 		if ((index = servChatOutListID.indexOf(destID)) != -1) {
 			servChatOutList.get(index).end();
@@ -170,16 +164,16 @@ public class ComSystem {
 		}
 	}
 
-	public ServChatIn ServChatFrom(int destID) {
+	public ChatThread ChatFrom(int destID) {
 		int index;
-		if ((index = servChatInListID.indexOf(destID)) != -1) {
-			return servChatInList.get(index);
+		if ((index = chatThreadsListID.indexOf(destID)) != -1) {
+			return chatThreadsList.get(index);
 		} else {
 			return null;
 		}
 	}
 	
-	public ServChatOut ServChatTo(int destID) {
+	public ServChatOut ServChatTo(int destID){
 		int index;
 		if ((index = servChatOutListID.indexOf(destID)) != -1) {
 			return servChatOutList.get(index);

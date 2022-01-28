@@ -2,30 +2,24 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.ComSystem;
 import gui.Principal;
 
 
 public class Model {
-    public User[] globalUserList;
-
+	
     public ArrayList<User> connectedUserList;
     public ArrayList<String> pseudoConnectedList;
 
 	private User currentUser ;
-
-    public List<Msg> msg ;
-
-    public List<ChatSession> chatSession ;
     
     private Principal principal; 
     
-    //Construction du model sans utilisateur pour l'instant. Il faut instancier un utilsiateur dès sa connexion 
     public Model()
     {
-    	msg = new ArrayList<Msg> ();
-    	chatSession = new ArrayList<ChatSession> ();
     	connectedUserList = new ArrayList<User> ();
     	pseudoConnectedList = new ArrayList<String>();
+        //Construction du model sans utilisateur pour l'instant. Il faudra instancier un utilsiateur dès sa connexion
     	currentUser = new User();
     }
     

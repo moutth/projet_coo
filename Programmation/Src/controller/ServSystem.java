@@ -70,7 +70,9 @@ public class ServSystem extends Thread {
 					break;
 					
 				case "Deconnexion" :
-					comSystem.controller.model.RemoveUser(Integer.valueOf(msg.getArg(1)));
+					int userDeconnectedID = Integer.valueOf(msg.getArg(1));
+					comSystem.controller.model.RemoveUser(userDeconnectedID);
+					comSystem.EndConnexion(userDeconnectedID);
 					break;
 					
 				default:

@@ -24,6 +24,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.AbstractListModel;
 
 public class Principal extends JFrame {
 
@@ -34,13 +36,16 @@ public class Principal extends JFrame {
 	private JPanel chatPanel;
 	private Connexion connexion;
 	private JTextField messageField;
-	JScrollPane messagesScroll;
 	JList<String> messages_list;
 	DefaultListModel<String> messages_string;
 	private User activeuser;
 	JList<String> connected_list;
 	DefaultListModel<String> connected_string;
 	private JTextField newPseudo;
+	private JScrollPane scrollPane_1;
+	DefaultListModel<String> reducuded_string;
+	private JList<String> reduced_list;
+	private JScrollPane reducedScrollPane;
 
 	/**
 	 * Create the frame.
@@ -56,21 +61,32 @@ public class Principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+
 		connected_string = new DefaultListModel<>();
 		InitializeConnected();
 		connected_list = new JList<>(connected_string);
 		messages_string = new DefaultListModel<>();
-		messages_list = new JList<>(messages_string);
-		messages_list.setBounds(12, 40, 463, 296);
 		chatPanel = new JPanel();
 		chatPanel.setBounds(12, 45, 487, 405);
 		contentPane.add(chatPanel);
 		chatPanel.setLayout(null);
+		reducuded_string = new DefaultListModel<>();
+		reducedScrollPane = new JScrollPane();
+		reducedScrollPane.setBounds(22, 462, 659, 44);
+		contentPane.add(reducedScrollPane);
 
-		chatPanel.add(messages_list);
-		messagesScroll = new JScrollPane();
-		messagesScroll.setBounds(0, 39, 475, 299);
-		chatPanel.add(messagesScroll);
+		reduced_list = new JList(reducuded_string);
+		reduced_list.setLayoutOrientation(JList.VERTICAL_WRAP);
+		reduced_list.setVisibleRowCount(6);
+		reducedScrollPane.setViewportView(reduced_list);
+
+		chatPanel.setVisible(false);
+
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(12, 40, 475, 296);
+		chatPanel.add(scrollPane_1);
+		messages_list = new JList<>(messages_string);
+		scrollPane_1.setViewportView(messages_list);
 
 		activeUser = new JLabel("lol");
 		activeUser.setBounds(12, 12, 70, 15);
@@ -117,11 +133,17 @@ public class Principal extends JFrame {
 
 		JScrollPane scrollPane = new JScrollPane(connected_list);
 		scrollPane.setBounds(511, 45, 170, 407);
+		scrollPane.setViewportView(connected_list);
 		contentPane.add(scrollPane);
 
 		JButton reduceButon = new JButton("Reduce");
 		reduceButon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				chatPanel.setVisible(false);
+				addReduced(activeUser.getText());
+				activeuser = null;
+				activeUser.setText("lol");
+				messages_string.removeAllElements();
 
 			}
 		});
@@ -134,8 +156,13 @@ public class Principal extends JFrame {
 				chatPanel.setVisible(false);
 				controller.comSystem.EndConnexion(activeuser.getUserID());
 				// DEBUG
+				if (reducuded_string.contains(activeUser.getText())) {
+					reducuded_string.removeElement(activeUser.getText());
+				}
 				activeUser.setText("lol");
+				activeuser = null;
 				messages_string.removeAllElements();
+
 			}
 		});
 		endButton.setBounds(303, 1, 86, 37);
@@ -189,7 +216,6 @@ public class Principal extends JFrame {
 		newPseudo.setBounds(564, 6, 117, 23);
 		contentPane.add(newPseudo);
 		newPseudo.setColumns(10);
-		chatPanel.setVisible(false);
 
 	}
 
@@ -218,6 +244,15 @@ public class Principal extends JFrame {
 			}
 			messages_string.addElement(currentString);
 		}
+	}
+
+	public void ReceiveMessage(String msg, int ID) {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
+		if (activeuser.getUserID() == ID) {
+			messages_string.addElement(activeuser.getPseudo() + ": " + msg + " ( " + formatter.format(date) + " )");
+		}
+
 	}
 
 	public void SomeoneChangedPseudo(String OldPseudo, String NewPseudo) {
@@ -252,6 +287,12 @@ public class Principal extends JFrame {
 			connected_string.removeElement(user.getPseudo());
 		} else {
 			connected_string.removeElement(user.getPseudo());
+		}
+	}
+
+	private void addReduced(String user) {
+		if (!reducuded_string.contains(user)) {
+			reducuded_string.addElement(user);
 		}
 	}
 

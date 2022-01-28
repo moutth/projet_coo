@@ -18,7 +18,7 @@ public class ServChatOut extends Thread {
 	private String toSend;
 	private boolean running;
 
-	private boolean sendWaiting;
+	public boolean sendWaiting;
 	
 	ServChatOut(ComSystem comSystem, User distant, Socket sendSocket){
 		this.comSystem = comSystem;
@@ -38,23 +38,32 @@ public class ServChatOut extends Thread {
 		start();
 	}
 	
-	public void run() {
+	synchronized public void run() {
 		while(running) {
-			if (sendWaiting) {
+			try {
+				wait();
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+				System.out.println(sendWaiting);
 				try {
-					writer.writeUTF(toSend + '\n');
+					writer.writeUTF(toSend);
+					System.out.println(toSend);
 					writer.flush();
 				} catch (IOException e) {
-					e.printStackTrace();
+					// On arrive ici si notre destinataire ferme sans deconnexion
+					// Fin du thread d'écoute et fermeture des sockets
+					running = false;
+					comSystem.EndConnexion(distantUser.getUserID());
+					comSystem.controller.model.RemoveUser(distantUser.getUserID());
 				}
 				sendWaiting = false;
-			}
 		}
 	}
 	
-	public void send(String msg) {
+	synchronized public void send(String msg) {
 		toSend = msg;
-		sendWaiting = true;
+		notify();
 	}
 	
 	public void end() {
