@@ -72,7 +72,7 @@ public class Principal extends JFrame {
 		chatPanel.setLayout(null);
 		reducuded_string = new DefaultListModel<>();
 		reducedScrollPane = new JScrollPane();
-		reducedScrollPane.setBounds(126, 462, 555, 44);
+		reducedScrollPane.setBounds(22, 462, 659, 44);
 		contentPane.add(reducedScrollPane);
 
 		reduced_list = new JList(reducuded_string);
@@ -103,6 +103,8 @@ public class Principal extends JFrame {
 					List<MsgUser> allMessages = null;
 					if (source.getSelectedValue() != null) {
 						String selected = source.getSelectedValue().toString();
+						// DEBUG
+						System.out.println(selected);
 						ArrayList<User> connectedUserList = model.getConnectedUserList();
 						for (int i = 0; i < connectedUserList.size(); i++) {
 							if (connectedUserList.get(i).getPseudo().equals(selected)) {
@@ -126,7 +128,7 @@ public class Principal extends JFrame {
 		});
 
 		JScrollPane scrollPane = new JScrollPane(connected_list);
-		scrollPane.setBounds(511, 69, 170, 383);
+		scrollPane.setBounds(511, 45, 170, 407);
 		scrollPane.setViewportView(connected_list);
 		contentPane.add(scrollPane);
 
@@ -149,10 +151,11 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				chatPanel.setVisible(false);
 				controller.comSystem.EndConnexion(activeuser.getUserID());
+				// DEBUG
 				if (reducuded_string.contains(activeUser.getText())) {
 					reducuded_string.removeElement(activeUser.getText());
 				}
-				activeUser.setText("");
+				activeUser.setText("lol");
 				activeuser = null;
 				messages_string.removeAllElements();
 
@@ -209,14 +212,6 @@ public class Principal extends JFrame {
 		newPseudo.setBounds(564, 6, 117, 23);
 		contentPane.add(newPseudo);
 		newPseudo.setColumns(10);
-		
-		JLabel lblNewLabel = new JLabel("UserConnected");
-		lblNewLabel.setBounds(534, 45, 135, 15);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblUserReduced = new JLabel("User Reduced");
-		lblUserReduced.setBounds(12, 462, 107, 44);
-		contentPane.add(lblUserReduced);
 
 	}
 
@@ -250,7 +245,7 @@ public class Principal extends JFrame {
 	public void ReceiveMessage(String msg, int ID) {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
-		if (activeuser != null && activeuser.getUserID() == ID) {
+		if (activeuser.getUserID() == ID) {
 			messages_string.addElement(activeuser.getPseudo() + ": " + msg + " ( " + formatter.format(date) + " )");
 		}
 
@@ -282,7 +277,8 @@ public class Principal extends JFrame {
 		if (user.getPseudo().equals(activeUser.getText())) {
 			chatPanel.setVisible(false);
 			controller.comSystem.EndConnexion(activeuser.getUserID());
-			activeUser.setText("");
+			// DEBUG
+			activeUser.setText("lol");
 			messages_string.removeAllElements();
 			connected_string.removeElement(user.getPseudo());
 		} else {
