@@ -103,8 +103,6 @@ public class Principal extends JFrame {
 					List<MsgUser> allMessages = null;
 					if (source.getSelectedValue() != null) {
 						String selected = source.getSelectedValue().toString();
-						// DEBUG
-						System.out.println(selected);
 						ArrayList<User> connectedUserList = model.getConnectedUserList();
 						for (int i = 0; i < connectedUserList.size(); i++) {
 							if (connectedUserList.get(i).getPseudo().equals(selected)) {
@@ -120,10 +118,6 @@ public class Principal extends JFrame {
 						activeUser.setText(selected);
 						chatPanel.setVisible(true);
 						InitMessages(allMessages);
-						// activeUser.setText(selected)
-						// Envoyer le message Via TCP
-						// MsgUser msg = new MsgUser("oui et toi ?");
-						// controller.database.SaveMsg(userSender, userReceiver, msg);
 						source.clearSelection();
 					}
 				}
@@ -155,11 +149,10 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				chatPanel.setVisible(false);
 				controller.comSystem.EndConnexion(activeuser.getUserID());
-				// DEBUG
 				if (reducuded_string.contains(activeUser.getText())) {
 					reducuded_string.removeElement(activeUser.getText());
 				}
-				activeUser.setText("lol");
+				activeUser.setText("");
 				activeuser = null;
 				messages_string.removeAllElements();
 
@@ -289,8 +282,7 @@ public class Principal extends JFrame {
 		if (user.getPseudo().equals(activeUser.getText())) {
 			chatPanel.setVisible(false);
 			controller.comSystem.EndConnexion(activeuser.getUserID());
-			// DEBUG
-			activeUser.setText("lol");
+			activeUser.setText("");
 			messages_string.removeAllElements();
 			connected_string.removeElement(user.getPseudo());
 		} else {
