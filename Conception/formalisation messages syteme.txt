@@ -1,1 +1,0 @@
--"newConnexion" : message envoyé lors de la connexion d'un nouvel utilisateur
